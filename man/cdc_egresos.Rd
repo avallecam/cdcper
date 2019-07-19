@@ -4,7 +4,7 @@
 \alias{cdc_egresos_summary}
 \alias{cdc_egresos_by_year}
 \alias{cdc_piramide}
-\title{Crear bases y tablas de conteo yfrecuencia de egresos hospitalarios}
+\title{Crear bases y tablas de conteo y frecuencia de egresos hospitalarios}
 \usage{
 cdc_egresos_summary(data, ..., percent_by = c(1), save = FALSE,
   rute = "data/")
@@ -48,33 +48,49 @@ Generación de bases resumen para la creación de gráficos de tendencia y tabla
 }}
 
 \examples{
-egress <- data(egresos)
-#explore data
-egress \%>\% glimpse()
-#in one line
-cdc_egresos_summary(data = egress,year,nombdep)
-cdc_egresos_summary(data = egress,percent_by = c(1,2),year,nombdep,sexo)
-#cdc_egresos_summary(data = egress,percent_by = c(2,3),year,nombdep,sexo)
-cdc_egresos_summary(data = egress,year,nombdep,edad_asis2015,sexo)
-cdc_egresos_summary(data = egress,percent_by = c(1,2,3),year,nombdep,edad_asis2015,sexo)
-cdc_egresos_summary(data = egress,year,desc_12)
-cdc_egresos_summary(data = egress,percent_by = c(1,2),year,nombdep,desc_12)
-#with tidyverse
-egress \%>\%
-  filter(year==max(year)) \%>\%
-  cdc_egresos_summary(year,desc_12) \%>\%
-  arrange(desc(pct))
-#output
-egress \%>\%
-  cdc_egresos_summary(year,nombdep,save = T) #dataset
-egress \%>\%
-  cdc_egresos_summary(percent_by = c(1,2),
-                      year,nombdep,edad_asis2015) \%>\%
-  cdc_egresos_by_year() #wide table
-#plot piramide
-egress \%>\%
-  filter(year==max(year)) \%>\%
-  cdc_egresos_summary(year,e_quinq_2,sexo) \%>\%
-  cdc_piramide() #class ggplot
+
+# ISSUE: egresos dataset no puede ser subida al paquete!
+
+# library(tidyverse)
+# library(tidyselect)
+# library(rlang)
+# library(naniar)
+# library(haven)
+# library(readxl)
+# library(ggrepel)
+# library(labelled)
+# library(gridExtra)
+# library(compareGroups)
+# library(janitor)
+# library(magrittr)
+#
+# egress <- data(egresos)
+# #explore data
+# egress \%>\% glimpse()
+# #in one line
+# cdc_egresos_summary(data = egress,year,nombdep)
+# cdc_egresos_summary(data = egress,percent_by = c(1,2),year,nombdep,sexo)
+# #cdc_egresos_summary(data = egress,percent_by = c(2,3),year,nombdep,sexo)
+# cdc_egresos_summary(data = egress,year,nombdep,edad_asis2015,sexo)
+# cdc_egresos_summary(data = egress,percent_by = c(1,2,3),year,nombdep,edad_asis2015,sexo)
+# cdc_egresos_summary(data = egress,year,desc_12)
+# cdc_egresos_summary(data = egress,percent_by = c(1,2),year,nombdep,desc_12)
+# #with tidyverse
+# egress \%>\%
+#   filter(year==max(year)) \%>\%
+#   cdc_egresos_summary(year,desc_12) \%>\%
+#   arrange(desc(pct))
+# #output
+# egress \%>\%
+#   cdc_egresos_summary(year,nombdep,save = T) #dataset
+# egress \%>\%
+#   cdc_egresos_summary(percent_by = c(1,2),
+#                       year,nombdep,edad_asis2015) \%>\%
+#   cdc_egresos_by_year() #wide table
+# #plot piramide
+# egress \%>\%
+#   filter(year==max(year)) \%>\%
+#   cdc_egresos_summary(year,e_quinq_2,sexo) \%>\%
+#   cdc_piramide() #class ggplot
 
 }

@@ -10,86 +10,36 @@
 #' @param subset_labels pending
 #' @param subset_list pending
 #'
+#' @import dplyr
+#' @import rlang
+#' @import sf
+#'
 #' @return Mapa e imagen con casos distribuidos espacialmente.
 #'
 #' @examples
-#' # libreria ----------------------------------------------------------------
 #'
-#' library(tidyverse)
-#' library(magrittr)
-#' library(sf)
-#' library(tmap)
-#'
-#' theme_set(theme_bw())
-#'
-#' # importar shp ------------------------------------------------------------
-#'
-#' #per0 <- st_read("data-raw/gis/PER_adm0.shp")
-#' #per1 <- st_read("data-raw/gis/PER_adm1.shp")
-#' #per2 <- st_read("data-raw/gis/PER_adm2.shp")
-#' #per3 <- st_read("data-raw/gis/dip16.shp")
-#' per4 <- st_read("data-raw/gis/Distritos.shp")
-#' #espe <- st_read("data-raw/gis/ES_Peru.shp")
-#'
-#' # cases -------------------------------------------------------------------
-#'
-#' piur <- st_read("data-raw/gis/Piura.shp")
-#' juni <- st_read("data-raw/gis/Junin.shp") %>% filter(prov_res=="HUANCAYO")
-#' lima <- st_read("data-raw/gis/Lima.shp") %>% filter(prov_res=="LIMA")
-#'
-#' # edit polygons -------------------------------------------------------------------
-#'
-#' per4
-#' per4 %>% glimpse()
-#' per4 %>% as_tibble() %>% count(NM_DEPA) %>% print(n=Inf)
-#'
-#' piu4 <- per4 %>% filter(NM_DEPA=="PIURA")
-#' jun4 <- per4 %>% filter(NM_DEPA=="JUNIN") %>% filter(NM_PROV=="HUANCAYO")
-#' lim4 <- per4 %>% filter(NM_DEPA=="LIMA",NM_PROV=="LIMA")
-#'
-#' # subset ------------------------------------------------------------------
-#'
-#' selected_dist <- c("CASTILLA","VEINTISEIS DE OCTUBRE","PIURA",
-#'                    "SULLANA","BELLAVISTA","PARIÑAS","CHULUCANAS","CATACAOS")
-#'
-#' piur_subset_list <- piu4 %>%
-#'   select(NM_DIST,CD_DIST) %>%
-#'   filter(NM_DIST %in% selected_dist | CD_DIST==200701) %>%
-#'   pull(CD_DIST)
-#'
-#' # eval number of cases ----------------------------------------------------
-#'
-#' piur %>% dim()
-#' lima %>% dim()
-#' juni %>% dim()
-#'
-#' # apply -------------------------------------------------------------------
-#'
-#' cdc_point_heatmap(data_shape = lim4,
-#'                   data_point = lima,
-#'                   rute_name = "figure/fig10-fun-sgb-lima")
-#'
-#' cdc_point_heatmap(data_shape = piu4,
-#'                   data_point = piur,
-#'                   rute_name = "figure/fig10-fun-sgb-piura",
-#'                   subset_labels = T,
-#'                   subset_list = piur_subset_list)
-#'
-#' cdc_point_heatmap(data_shape = jun4,
-#'                   data_point = juni,
-#'                   rute_name = "figure/fig10-fun-sgb-junin") +
-#'   ggtitle("JUNIN - Provincia: Huancayo")
-#' ggsave(paste0("figure/fig10-fun-sgb-junin",".png"),height = 10,width = 10)
-#'
-#'
-#' # con una marca -----------------------------------------------------------
-#'
-#' cdc_point_heat_mark(data_point = piur,
-#'                     data_shape = piu4,
-#'                     mp_xlim = c(-81.4,-80.2),
-#'                     mp_ylim = c(-5.45,-4.4),
-#'                     mp_dist = 10,
-#'                     mp_loca = "bottomright")
+#' # per4 <- st_read("data-raw/gis/Distritos.shp")
+#' # juni <- st_read("data-raw/gis/Junin.shp") %>% filter(prov_res=="HUANCAYO")
+#' #
+#' # # edit polygons -------------------------------------------------------------------
+#' #
+#' # jun4 <- per4 %>% filter(NM_DEPA=="JUNIN") %>% filter(NM_PROV=="HUANCAYO")
+#' #
+#' # cdc_point_heatmap(data_shape = jun4,
+#' #                   data_point = juni,
+#' #                   rute_name = "figure/fig10-fun-sgb-junin") +
+#' #   ggtitle("JUNIN - Provincia: Huancayo")
+#' # ggsave(paste0("figure/fig10-fun-sgb-junin",".png"),height = 10,width = 10)
+#' #
+#' #
+#' # # con una marca -----------------------------------------------------------
+#' #
+#' # cdc_point_heat_mark(data_point = piur,
+#' #                     data_shape = piu4,
+#' #                     mp_xlim = c(-81.4,-80.2),
+#' #                     mp_ylim = c(-5.45,-4.4),
+#' #                     mp_dist = 10,
+#' #                     mp_loca = "bottomright")
 #'
 #'@export cdc_point_heatmap
 #'@export cdc_point_heat_mark
