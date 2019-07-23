@@ -6,7 +6,7 @@
 \title{Crear mapas con patrones puntuales}
 \usage{
 cdc_point_heatmap(data_shape, data_point, rute_name, subset_labels = F,
-  subset_list)
+  subset_list, mp_xlim, mp_ylim, mp_dist, mp_loca)
 
 cdc_point_heat_mark(data_shape, data_point, mp_xlim, mp_ylim, mp_dist,
   mp_loca)
