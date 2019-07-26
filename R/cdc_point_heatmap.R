@@ -99,7 +99,7 @@ cdc_point_heatmap <- function(data_shape,data_point,rute_name,
       geom_sf(data = caso,alpha=0.5#,size=0.5
               ) +
 
-      geom_sf_text(data = piu4 %>%
+      geom_sf_text_repel(data = piu4 %>%
                      mutate(NM_DIST=str_replace_all(NM_DIST,"[^[:graph:]]", " ")) %>%
                      filter(CD_DIST %in% subset_list_raw)
                    ,aes(label=NM_DIST),size=2) +
@@ -126,7 +126,7 @@ cdc_point_heatmap <- function(data_shape,data_point,rute_name,
       geom_sf(alpha=0,colour="gray") +
       geom_sf(data = caso,alpha=0.5#,size=0.5
               ) +
-      geom_sf_text(data = piu4 %>%
+      geom_sf_text_repel(data = piu4 %>%
                      mutate(NM_DIST=str_replace_all(NM_DIST,"[^[:graph:]]", " ")) %>%
                      filter(CD_DIST %in% subset_list_raw)
                    ,aes(label=NM_DIST),size=2) +
@@ -207,7 +207,7 @@ cdc_point_heat_mark <- function(data_shape,data_point,
     #geom_sf(data = caso_pnt,aes(colour=mark,size=mark,shape=mark),size=2) +
     xlim(mp_xlim) + ylim(mp_ylim) +
 
-    geom_sf_text(data = piu4 %>%
+    geom_sf_text_repel(data = piu4 %>%
                    mutate(NM_DIST=str_replace_all(NM_DIST,"[^[:graph:]]", " ")) %>%
                    filter(CD_DIST %in% subset_list_raw)
                  ,aes(label=NM_DIST),size=2) +
