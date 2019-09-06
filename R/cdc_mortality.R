@@ -111,7 +111,12 @@ cdc_mortality <- function(data,denominador,estandar,...,rute_name=NA_character_)
 
   mort_to_long <- data %>%
     #definir variables
-    count(...,edad_estandar) %>%
+    #count(...,edad_estandar) %>%
+    #combo to add zero counts: factor,group_by,tally!
+    mutate(edad_estandar = as.factor(edad_estandar)) %>%
+    group_by(...,edad_estandar,.drop = FALSE) %>%
+    tally(sort = T) %>%
+    ungroup() %>%
     #merge denominators
     left_join(denomi_pe_sub) %>%
     #tasa bruta
