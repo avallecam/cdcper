@@ -234,11 +234,17 @@ cdc_mortality_2 <- function(data,denominador,estandar,...,rute_name=NA_character
 #' @describeIn cdc_mortality create output table
 #' @inheritParams cdc_mortality
 #' @param data_long output from cdc_mortality
-cdc_mortality_to_wide <- function(data_long,rute_name) {
-  data_long %>%
+cdc_mortality_to_wide <- function(data_long,rute_name=NA) {
+  product <- data_long %>%
     gather(key,value,n_sum,pop_sum,cdr_cmil,dar_cmil) %>%
     mutate(key=fct_relevel(key,"n_sum","pop_sum","cdr_cmil","dar_cmil")) %>%
-    spread(year,value) %>%
-    write_csv(paste0(rute_name,"_wide.csv")) %T>%
-    xlsx::write.xlsx(paste0(rute_name,"_wide.xlsx"))
+    spread(year,value)
+  if (is.na(rute_name)) {
+    return(product)
+  } else {
+    product %>%
+      write_csv(paste0(rute_name,"_wide.csv")) %T>%
+      xlsx::write.xlsx(paste0(rute_name,"_wide.xlsx"))
+  }
+
 }
