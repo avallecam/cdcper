@@ -4,18 +4,25 @@
 \alias{cdc_mortality}
 \alias{cdc_denominator}
 \alias{cdc_mortality_2}
+\alias{cdc_mortality_adj}
+\alias{cdc_mortality_raw}
 \alias{cdc_mortality_to_wide}
 \title{Crear bases y tablas de conteo y tasas estandarizadas de mortalidad}
 \usage{
 cdc_mortality(data, denominador, estandar, ...,
   rute_name = NA_character_)
 
-cdc_denominator(denominador, ...)
+cdc_denominator(denominador, estrato, ...)
 
 cdc_mortality_2(data, denominador, estandar, ...,
   rute_name = NA_character_)
 
-cdc_mortality_to_wide(data_long, rute_name)
+cdc_mortality_adj(data, denominador, estandar, ...,
+  rute_name = NA_character_)
+
+cdc_mortality_raw(data, denominador, ..., rute_name = NA_character_)
+
+cdc_mortality_to_wide(data_long, rute_name = NA)
 }
 \arguments{
 \item{data}{data frame con información nominal (por sujeto)}
@@ -27,6 +34,8 @@ cdc_mortality_to_wide(data_long, rute_name)
 \item{...}{lista de una o más variables}
 
 \item{rute_name}{character string con la ruta y nombre del objeto a exportar. Las bases se exportan en RDS y DTA. Las tablas en CSV y XLSX.}
+
+\item{estrato}{estrato de edad a usar para estandarizar}
 
 \item{data_long}{output from cdc_mortality}
 }
@@ -43,6 +52,10 @@ API para la generación de bases resumen para la creación de gráficos de tende
 \item \code{cdc_denominator}: create denominator
 
 \item \code{cdc_mortality_2}: create mortality with extra variables
+
+\item \code{cdc_mortality_adj}: create mortality with extra variables
+
+\item \code{cdc_mortality_raw}: create mortality with extra variables
 
 \item \code{cdc_mortality_to_wide}: create output table
 }}

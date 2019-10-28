@@ -9,7 +9,7 @@
 cdc_egresos_summary(data, ..., percent_by = c(1), save = FALSE,
   rute = "data/")
 
-cdc_egresos_by_year(data_long, rute = "table/")
+cdc_egresos_by_year(data_long, rute = NA)
 
 cdc_piramide(data, x = pct, y = e_quinq_2, z = sexo)
 }

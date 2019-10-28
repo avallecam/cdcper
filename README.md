@@ -18,12 +18,15 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 - `cdc_choropleth_facet`: mapa coropletico estático segmentado por facets
 - `cdc_morantest`: Ejecuta un test de Moran para poner a prueba la hipotesis de autocorrelación espacial
 - `cdc_rsatscan_clean`: Limpia la salida del rsatscan para la identificación de cluster espacial
-- `cdc_point_heatmap`: mapa de calor de datos puntuales
+- `cdc_heatmap`: mapa de calor de datos puntuales
+- `cdc_point_heatmap`: mapa de calor de datos puntuales + visualización de puntos 
 - `cdc_point_heat_mark`: mapa de datos puntuales con dos valores a graficar (e.g. casos confirmados y PCR positivos para agente patógeno)
 
 
 
 ## To-Do
+
+( ) issue: _no visible global function definition_ estas usando muchas nombres de columna no declarados
 
 - update mortality functions con names de argumentos ...
 

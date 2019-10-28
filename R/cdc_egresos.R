@@ -99,16 +99,23 @@ cdc_egresos_summary <- function(data,...,percent_by=c(1),save=FALSE,rute="data/"
 #' @describeIn cdc_egresos create denominator
 #' @inheritParams cdc_egresos
 #' @param data_long output from cdc_egresos_summary
-cdc_egresos_by_year <- function(data_long,rute="table/") {
+cdc_egresos_by_year <- function(data_long,rute=NA) {
   out <- data_long
   name <- out %>% select(-n,-pct) %>% colnames() %>% paste0(collapse = "_")
   rute_name <- paste0(rute,"egresos-",name,"-wide")
-  out %>%
+  product <- out %>%
     gather(key,value,n,pct) %>%
     unite("nkey",c("year","key")) %>%
-    spread(nkey,value) %>%
-    write_csv(paste0(rute_name,".csv")) %T>%
-    xlsx::write.xlsx(paste0(rute_name,".xlsx"))
+    spread(nkey,value)
+
+  if (is.na(rute)) {
+    return(product)
+  } else {
+    product %>%
+      write_csv(paste0(rute_name,".csv")) %T>%
+      xlsx::write.xlsx(paste0(rute_name,".xlsx"))
+  }
+
 }
 #' @describeIn cdc_egresos create denominator
 #' @inheritParams cdc_egresos

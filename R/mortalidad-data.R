@@ -11,7 +11,7 @@
 #' @keywords datasets
 #'
 #' @references CDC-MINSA
-#' ([dge.gob.pe](https://www.dge.gob.pe/portal/docs/asis/Asis_mortalidad.pdf))
+#' ([dge.gob.pe](https://www.dge.gob.pe/portal/docs/asis/Asis_mortdb.pdf))
 #'
 #' @source CDC-MINSA, <https://www.dge.gob.pe/portal/>
 #'

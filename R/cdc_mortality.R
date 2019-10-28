@@ -20,6 +20,8 @@
 #' @export cdc_denominator
 #' @export cdc_mortality_2
 #' @export cdc_mortality_to_wide
+#' @export cdc_mortality_adj
+#' @export cdc_mortality_raw
 #'
 #' @examples
 #'
@@ -159,12 +161,14 @@ cdc_mortality <- function(data,denominador,estandar,...,rute_name=NA_character_)
 }
 #' @describeIn cdc_mortality create denominator
 #' @inheritParams cdc_mortality
-cdc_denominator <- function(denominador,...){
+#' @param estrato estrato de edad a usar para estandarizar
+cdc_denominator <- function(denominador,estrato,...){
 
   denomi_pe <- denominador
+  edad_estandar <- enquo(estrato)
 
   denomi_pe_sub <- denomi_pe %>%
-    group_by(...,edad_estandar) %>%
+    group_by(...,!!edad_estandar) %>%
     summarise(pop=sum(pop,na.rm = T)) %>%
     ungroup()
 
@@ -212,6 +216,128 @@ cdc_mortality_2 <- function(data,denominador,estandar,...,rute_name=NA_character
               cdr_cmil=100000*sum(tasa_b.pop)/sum(pop),
               #DIRECT AGE-ADJUSTED DEATH RATE (DAR = SUM(p_ij*N_ij) / SUM(N_ij) )
               dar_cmil=100000*sum(tasa_b.est)/100) %>%
+    ungroup() %>%
+    arrange(...) %>%
+    mutate(country="PERU") %>%
+    select(country,year,everything())
+
+  #plan: introducir nombres de forma automática por variables
+  #print(g_var)
+
+  if (!is.na(rute_name)) {
+    mort_to_long %>%
+      write_dta(paste0(rute_name,".dta")) %T>%
+      write_rds(paste0(rute_name,".rds"))
+    return(mort_to_long)
+  } else {
+    #mort_to_long %>% write_dta(paste0(rute_name,".dta"))
+    return(mort_to_long)
+  }
+
+}
+#' @describeIn cdc_mortality create mortality with extra variables
+#' @inheritParams cdc_mortality
+cdc_mortality_adj <- function(data,denominador,estandar,...,rute_name=NA_character_) {
+
+  #data= base nominal
+  #denominador= base agregada por year-depart-age-sexo
+  #estandar= proporción estandar por quinquenios de edad hasta 80 años
+  #rute_name= character string
+
+  denomi_pe_sub <- denominador
+  fctwho_std <- estandar
+
+  mort_to_long <- data %>%
+    #definir variables
+    #count(...,edad_estandar) %>%
+    #combo to add zero counts: factor,group_by,tally!
+    mutate(edad_estandar = as.factor(edad_estandar)) %>%
+    group_by(...,edad_estandar,.drop = FALSE) %>%
+    tally(sort = T) %>%
+    ungroup() %>%
+    #merge denominators
+    left_join(denomi_pe_sub) %>%
+    #tasa bruta
+    mutate(tasa_b=n/pop) %>%
+    full_join(fctwho_std) %>%
+    #tasa estandarizada por edad
+    mutate(#tasa_e=tasa_b*pop.est,
+      #producto en numerador
+      # i:population ; j:strata
+      #CRUDE DEATH RATE (numerator = p_ij*N_ij)
+      tasa_b.pop=tasa_b*pop,
+      #DIRECTLY AGE-ADJUSTED DEATH RATE (numerator = p_ij*N_ij)
+      tasa_b.est=tasa_b*pop.est) %>%
+    #age-adjusted rate per = tasa bruta * poblacion estandar
+    group_by(...) %>%
+    summarise(n_sum=sum(n),
+              pop_sum=sum(pop),
+              #CRUDE DEATH RATE (CDR = SUM(p_ij*N_ij) / SUM(N_ij) )
+              cdr_cmil=100000*sum(tasa_b.pop)/sum(pop),
+              #DIRECT AGE-ADJUSTED DEATH RATE (DAR = SUM(p_ij*N_ij) / SUM(N_ij) )
+              dar_cmil=100000*sum(tasa_b.est)/100) %>%
+    ungroup() %>%
+    arrange(...) %>%
+    mutate(country="PERU") %>%
+    select(country,year,everything())
+
+  #plan: introducir nombres de forma automática por variables
+  #print(g_var)
+
+  if (!is.na(rute_name)) {
+    mort_to_long %>%
+      write_dta(paste0(rute_name,".dta")) %T>%
+      write_rds(paste0(rute_name,".rds"))
+    return(mort_to_long)
+  } else {
+    #mort_to_long %>% write_dta(paste0(rute_name,".dta"))
+    return(mort_to_long)
+  }
+
+}
+#' @describeIn cdc_mortality create mortality with extra variables
+#' @inheritParams cdc_mortality
+cdc_mortality_raw <- function(data,denominador,...,rute_name=NA_character_) {
+
+  #data= base nominal
+  #denominador= base agregada por year-depart-age-sexo
+  #estandar= proporción estandar por quinquenios de edad hasta 80 años
+  #rute_name= character string
+
+  denomi_pe_sub <- denominador
+  #fctwho_std <- estandar
+
+  mort_to_long <- data %>%
+    #definir variables
+    #count(...,edad_estandar) %>%
+    #combo to add zero counts: factor,group_by,tally!
+    mutate(edad_estandar = as.factor(edad_estandar)) %>%
+    group_by(...,edad_estandar,.drop = FALSE) %>%
+    tally(sort = T) %>%
+    ungroup() %>%
+    #merge denominators
+    left_join(denomi_pe_sub) %>%
+    #tasa bruta
+    mutate(tasa_b=n/pop) %>%
+    full_join(fctwho_std) %>%
+    #tasa estandarizada por edad
+    mutate(#tasa_e=tasa_b*pop.est,
+      #producto en numerador
+      # i:population ; j:strata
+      #CRUDE DEATH RATE (numerator = p_ij*N_ij)
+      tasa_b.pop=tasa_b*pop,
+      # #DIRECTLY AGE-ADJUSTED DEATH RATE (numerator = p_ij*N_ij)
+      # tasa_b.est=tasa_b*pop.est
+      ) %>%
+    #age-adjusted rate per = tasa bruta * poblacion estandar
+    group_by(...) %>%
+    summarise(n_sum=sum(n),
+              pop_sum=sum(pop),
+              #CRUDE DEATH RATE (CDR = SUM(p_ij*N_ij) / SUM(N_ij) )
+              cdr_cmil=100000*sum(tasa_b.pop)/sum(pop),
+              # #DIRECT AGE-ADJUSTED DEATH RATE (DAR = SUM(p_ij*N_ij) / SUM(N_ij) )
+              # dar_cmil=100000*sum(tasa_b.est)/100
+              ) %>%
     ungroup() %>%
     arrange(...) %>%
     mutate(country="PERU") %>%
