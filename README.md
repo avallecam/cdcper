@@ -39,3 +39,4 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 > Error: 'egresos' is not an exported object from 'namespace:cdcper'
 > Ejecuci�n interrumpida
 > Exited with status 1.
+- respuesta: se debe usar el mismo nombre de archivo y nombre original al crear el objeto Rda
