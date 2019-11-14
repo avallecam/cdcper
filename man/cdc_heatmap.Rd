@@ -4,6 +4,9 @@
 \alias{cdc_heatmap}
 \alias{cdc_point_heatmap}
 \alias{cdc_point_heat_mark}
+\alias{cdc_geo_heatmap}
+\alias{cdc_geo_heatmap_point}
+\alias{cdc_geo_heatmap_point_mark}
 \title{Crear mapas con patrones puntuales}
 \usage{
 cdc_heatmap(data_shape, data_point, rute_name = NA, subset_list, mp_xlim,
@@ -14,6 +17,15 @@ cdc_point_heatmap(data_shape, data_point, rute_name = NA, subset_list,
 
 cdc_point_heat_mark(data_shape, data_point, mp_xlim, mp_ylim, mp_dist,
   mp_loca)
+
+cdc_geo_heatmap(data_shape, data_point, rute_name = NA, subset_list,
+  mp_xlim, mp_ylim, mp_dist, mp_loca)
+
+cdc_geo_heatmap_point(data_shape, data_point, rute_name = NA,
+  subset_list, mp_xlim, mp_ylim, mp_dist, mp_loca)
+
+cdc_geo_heatmap_point_mark(data_shape, data_point, mp_xlim, mp_ylim,
+  mp_dist, mp_loca)
 }
 \arguments{
 \item{data_shape}{pending}
@@ -45,6 +57,12 @@ Generar de mapas con patrones puntuales.
 \item \code{cdc_point_heatmap}: marked heat map
 
 \item \code{cdc_point_heat_mark}: marked heat map
+
+\item \code{cdc_geo_heatmap}: new name
+
+\item \code{cdc_geo_heatmap_point}: marked heat map
+
+\item \code{cdc_geo_heatmap_point_mark}: marked heat map
 }}
 
 \examples{

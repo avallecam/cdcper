@@ -2,7 +2,7 @@
 #'
 #' Crea change, slope, heat and tree -maps.
 #'
-#' @describeIn his_create funcion para limpiar bases de HIS MIS
+#' @describeIn cdc_changeplot create various types of plots for trend comparison
 #'
 #' @param data input dataframe
 #' @param time nombre de la vairable año
@@ -13,11 +13,12 @@
 #' @import dplyr
 #' @import rlang
 #' @import tidyr
+#' @import ggplot2
 #' @import magrittr
 #' @import CGPfunctions
 #' @import treemapify
 #'
-#' @return Bases limpias de HIS MIS.
+#' @return gráficos para mortalidad y morbilidad.
 #'
 #' @examples
 #'
@@ -29,7 +30,7 @@
 #'@export cdc_region_heatmap
 #'@export cdc_treemap
 #'
-cdc_changeplot <- function(data,time,name,value,...) {
+cdc_changeplot <- function(data,time,name,value,...,label="change") {
 
   mort_per1 <- data
   year <- enquo(time)
@@ -48,18 +49,47 @@ cdc_changeplot <- function(data,time,name,value,...) {
 
   #mort_change %>% naniar::miss_var_summary()
 
-  mort_change_lab <- mort_change %>%
-    mutate(nuname=case_when(
-      str_detect(nuname,"respiratorias agudas") ~ "IRA",
-      str_detect(nuname,"cerebrovasculares") ~ "ECV",
-      TRUE ~ as.character(nuname)
-    )
-    ) %>%
-    filter(
-      abs(change)>10 |
-        now>20
-    ) %>%
-    arrange(desc(change))
+  if (label=="change") {
+    mort_change_lab <- mort_change %>%
+      mutate(nuname=case_when(
+        str_detect(nuname,"respiratorias agudas") ~ "IRA",
+        str_detect(nuname,"cerebrovasculares") ~ "ECV",
+        TRUE ~ as.character(nuname)
+      )
+      ) %>%
+      group_by(...) %>%
+      arrange(...,desc(abs(change))) %>%
+      slice(1:10) %>%
+      #top_n(abs(change),5) %>%
+      # filter(
+      #   abs(change)>10 |
+      #     now>20
+      # ) %>%
+      #arrange(desc(change)) %>%
+      ungroup()
+
+  } else if (label=="now") {
+    mort_change_lab <- mort_change %>%
+      mutate(nuname=case_when(
+        str_detect(nuname,"respiratorias agudas") ~ "IRA",
+        str_detect(nuname,"cerebrovasculares") ~ "ECV",
+        TRUE ~ as.character(nuname)
+      )
+      ) %>%
+      group_by(...) %>%
+      arrange(...,desc(abs(now))) %>%
+      slice(1:10) %>%
+      #top_n(abs(change),5) %>%
+      # filter(
+      #   abs(change)>10 |
+      #     now>20
+      # ) %>%
+      #arrange(desc(change)) %>%
+      ungroup()
+
+  }
+
+
 
   mort_change_plot <- mort_change %>%
     #filter(str_detect(!!descrip_grupo110,"isquemicas"))
@@ -79,7 +109,7 @@ cdc_changeplot <- function(data,time,name,value,...) {
   list(data=mort_change,
        plot=mort_change_plot) %>% return()
 }
-#' @describeIn cdc_slopegraph crear slopegraph
+#' @describeIn cdc_changeplot crear slopegraph
 #' @inheritParams cdc_changeplot
 #' @param ranking cambiar de grafico cuantitativo a uno con ranking
 cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
@@ -89,7 +119,7 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
   descrip_grupo110 <- enquo(name)
   dar_cmil <- enquo(value)
 
-  # __top_n
+  # _ _top_n
 
   mort_top_n <- mort_per1 %>%
     group_by(...) %>%
@@ -106,7 +136,7 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
   #   top_n(n = 15,wt = !!dar_cmil) %>%
   #   pull(!!descrip_grupo110)
 
-  # __plot
+  # _ _plot
 
   mort_per1_p <- mort_per1 %>%
     #filtrar top de enfermedades
@@ -114,7 +144,8 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
     inner_join(mort_top_n) %>%
     #formatos para graficar
     mutate(!!year:=str_replace(!!year,"(.+)","Año \\1"),
-           !!dar_cmil:=round(!!dar_cmil)) %>%
+           qvalue=round(!!dar_cmil),
+           cvalue=!!descrip_grupo110) %>%
     #identificar grupos de enfermedades
     mutate(col=case_when(
       str_detect(!!descrip_grupo110,"Diabetes") ~ "no_comu",
@@ -127,14 +158,14 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
       str_detect(col,"comu") ~ "red",
       str_detect(col,"lesi") ~ "green"
     ),
-    !!descrip_grupo110:=fct_recode(!!descrip_grupo110,
-                                   "Enfermedades crónicas del hígado"="Cirrosis y ciertas otras enfermedades crónicas del hígado")
+    cvalue=fct_recode(cvalue,
+                      "Enfermedades crónicas del hígado"="Cirrosis y ciertas otras enfermedades crónicas del hígado")
     ) %>%
-    arrange(!!year,desc(!!dar_cmil)) %>%
+    arrange(!!year,desc(qvalue)) %>%
     group_by(...,!!year) %>%
     mutate(rank = row_number(),
            anti_rank = -rank) %>%
-    #top_n(n = 10,wt = !!dar_cmil) %>%
+    #top_n(n = 10,wt = qvalue) %>%
     ungroup()
 
   #levels(mort_per1_p$!!descrip_grupo110)
@@ -153,10 +184,10 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
       #graficar
       newggslopegraph(
         Times = year,
-        Measurement = dar_cmil,
+        Measurement = qvalue,
         #Measurement = anti_rank,
         #Grouping = disease_plot,
-        Grouping = descrip_grupo110,
+        Grouping = cvalue,
         # Title = "Perú",
         # SubTitle = "Todas las edades. Todos los sexos.\nTasas* de mortalidad por 100 mil hab.",
         # Caption = "*Estandarizadas por edad\n\nElaboración: MINSA-CDC (Julio, 2019)",
@@ -178,7 +209,7 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
         #Measurement = dar_cmil,
         Measurement = anti_rank,
         #Grouping = disease_plot,
-        Grouping = descrip_grupo110,
+        Grouping = cvalue,
         # Title = "Perú",
         # SubTitle = "Todas las edades. Todos los sexos.\nTasas* de mortalidad por 100 mil hab.",
         # Caption = "*Estandarizadas por edad\n\nElaboración: MINSA-CDC (Julio, 2019)",
@@ -196,7 +227,7 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
   list(data=mort_per1_p,plot=a) %>% return()
 
 }
-#' @describeIn cdc_region_heatmap crear heatmap en un grilla
+#' @describeIn cdc_changeplot crear heatmap en un grilla
 #' @inheritParams cdc_changeplot
 cdc_region_heatmap <- function(data,time,name,value,...) {
 
@@ -221,7 +252,9 @@ cdc_region_heatmap <- function(data,time,name,value,...) {
       # departamento=reorder_within(departamento, -!!dar_cmil, ...)
       !!descrip_grupo110:=fct_reorder(!!descrip_grupo110,-!!dar_cmil,mean),
       departamento=fct_reorder(departamento,-!!dar_cmil,mean)
-    )
+    ) %>%
+    mutate(rank=if_else(!!dar_cmil==0,NA_integer_,rank)) %>%
+    filter(!is.na(rank))
 
   heattile_plot <- heattile_data %>%
     ggplot(aes(departamento,!!descrip_grupo110,
@@ -246,8 +279,8 @@ cdc_region_heatmap <- function(data,time,name,value,...) {
   list(data=heattile_data,plot=heattile_plot) %>% return()
 
 }
-#' @describeIn cdc_region_heatmap crear heatmap en un grilla
-#' @inheritParams cdc_treemap
+#' @describeIn cdc_changeplot crear treemap con dos niveles
+#' @inheritParams cdc_changeplot
 #' @param subname subcategoria de nombres de enfermedades
 cdc_treemap <- function(data,time,name,subname,value,...) {
 
