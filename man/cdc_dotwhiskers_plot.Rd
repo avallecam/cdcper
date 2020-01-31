@@ -2,9 +2,12 @@
 % Please edit documentation in R/cdc_special.R
 \name{cdc_dotwhiskers_plot}
 \alias{cdc_dotwhiskers_plot}
+\alias{cdc_dotwhiskers_plot_2}
 \title{Make some special plots}
 \usage{
 cdc_dotwhiskers_plot(data, var_categorical, var_continuous)
+
+cdc_dotwhiskers_plot_2(data, var_continuous, ...)
 }
 \arguments{
 \item{data}{base de datos}
@@ -12,6 +15,8 @@ cdc_dotwhiskers_plot(data, var_categorical, var_continuous)
 \item{var_categorical}{variable categórica (idealmente politómica)}
 
 \item{var_continuous}{variable numérica contínua}
+
+\item{...}{add multiple categorical variables}
 }
 \value{
 estimacion puntual e incertidumbre de la distribución de una variable por cada nivel de categorias
@@ -22,6 +27,8 @@ Make a dot-whiskers plot (a.k.a starwars TE fighter spaceship plot!)
 \section{Functions}{
 \itemize{
 \item \code{cdc_dotwhiskers_plot}: 
+
+\item \code{cdc_dotwhiskers_plot_2}: priorización con dos covariables
 }}
 
 \examples{
