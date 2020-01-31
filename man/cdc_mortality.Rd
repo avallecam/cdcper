@@ -78,7 +78,6 @@ API para la generación de bases resumen para la creación de gráficos de tende
 # library(ggrepel)
 # library(labelled)
 # library(gridExtra)
-# library(xlsx)
 #
 # # importar base ----------------------------------------------------------------
 #

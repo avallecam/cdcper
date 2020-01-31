@@ -41,7 +41,6 @@
 #' # library(ggrepel)
 #' # library(labelled)
 #' # library(gridExtra)
-#' # library(xlsx)
 #' #
 #' # # importar base ----------------------------------------------------------------
 #' #
@@ -370,7 +369,7 @@ cdc_mortality_to_wide <- function(data_long,rute_name=NA) {
   } else {
     product %>%
       write_csv(paste0(rute_name,"_wide.csv")) %T>%
-      xlsx::write.xlsx(paste0(rute_name,"_wide.xlsx"))
+      writexl::write_xlsx(paste0(rute_name,"_wide.xlsx"))
   }
 
 }

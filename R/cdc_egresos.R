@@ -113,7 +113,7 @@ cdc_egresos_by_year <- function(data_long,rute=NA) {
   } else {
     product %>%
       write_csv(paste0(rute_name,".csv")) %T>%
-      xlsx::write.xlsx(paste0(rute_name,".xlsx"))
+      writexl::write_xlsx(paste0(rute_name,".xlsx"))
   }
 
 }
