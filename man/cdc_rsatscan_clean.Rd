@@ -33,7 +33,6 @@ Limpiar salida y generar de mapas coropleticos con resultados estadísticos de R
 # library(lubridate)
 # library(rlang)
 # library(cdcper)
-# library(xlsx)
 # theme_set(theme_bw()) #fondo blanco y negro del ggplot
 #
 # td = tempdir()

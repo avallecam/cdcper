@@ -4,14 +4,21 @@
 \alias{cdc_changeplot}
 \alias{cdc_slopegraph}
 \alias{cdc_region_heatmap}
+\alias{cdc_region_heatmap_data}
+\alias{cdc_region_heatmap_ggplot}
 \alias{cdc_treemap}
 \title{Realiza gráficos resumen de tendencia}
 \usage{
 cdc_changeplot(data, time, name, value, ..., label = "change")
 
-cdc_slopegraph(data, time, name, value, ..., ranking = FALSE)
+cdc_slopegraph(data, time, name, value, ..., top_n = 10,
+  ranking = FALSE)
 
 cdc_region_heatmap(data, time, name, value, ...)
+
+cdc_region_heatmap_data(data, time, name, value, ...)
+
+cdc_region_heatmap_ggplot(cdc_region_heatmap_data, name, value, ...)
 
 cdc_treemap(data, time, name, subname, value, ...)
 }
@@ -25,6 +32,8 @@ cdc_treemap(data, time, name, subname, value, ...)
 \item{value}{valor de la unidad a graficar: e.g. tasa ajsutada de mortalidad}
 
 \item{...}{conjunto de covariables a usar para estratificar los graficos finales: e.g. sexo o edad}
+
+\item{top_n}{definir numero de elementos a visualizar en el top}
 
 \item{ranking}{cambiar de grafico cuantitativo a uno con ranking}
 
@@ -43,6 +52,10 @@ Crea change, slope, heat and tree -maps.
 \item \code{cdc_slopegraph}: crear slopegraph
 
 \item \code{cdc_region_heatmap}: crear heatmap en un grilla
+
+\item \code{cdc_region_heatmap_data}: crear heatmap en un grilla data
+
+\item \code{cdc_region_heatmap_ggplot}: crear heatmap en un grilla ggplot
 
 \item \code{cdc_treemap}: crear treemap con dos niveles
 }}
