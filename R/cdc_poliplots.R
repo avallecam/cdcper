@@ -29,6 +29,8 @@
 #'@export cdc_slopegraph
 #'@export cdc_region_heatmap
 #'@export cdc_treemap
+#'@export cdc_region_heatmap_data
+#'@export cdc_region_heatmap_ggplot
 #'
 cdc_changeplot <- function(data,time,name,value,...,label="change") {
 
@@ -111,8 +113,9 @@ cdc_changeplot <- function(data,time,name,value,...,label="change") {
 }
 #' @describeIn cdc_changeplot crear slopegraph
 #' @inheritParams cdc_changeplot
+#' @param top_n definir numero de elementos a visualizar en el top
 #' @param ranking cambiar de grafico cuantitativo a uno con ranking
-cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
+cdc_slopegraph <- function(data,time,name,value,...,top_n=10,ranking=FALSE) {
 
   mort_per1 <- data
   year <- enquo(time)
@@ -125,7 +128,7 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
     group_by(...) %>%
     #top 10 al último año
     filter(!!year==max(!!year)) %>%
-    top_n(n = 10,wt = !!dar_cmil) %>%
+    top_n(n = top_n,wt = !!dar_cmil) %>%
     ungroup() %>%
     select(...,!!descrip_grupo110)
   #pull(!!descrip_grupo110)
@@ -144,14 +147,14 @@ cdc_slopegraph <- function(data,time,name,value,...,ranking=FALSE) {
     inner_join(mort_top_n) %>%
     #formatos para graficar
     mutate(!!year:=str_replace(!!year,"(.+)","Año \\1"),
-           qvalue=round(!!dar_cmil),
+           qvalue=round(!!dar_cmil*100), #convinient multiplication, this is wrong, but useful
            cvalue=!!descrip_grupo110) %>%
     #identificar grupos de enfermedades
     mutate(col=case_when(
       str_detect(!!descrip_grupo110,"Diabetes") ~ "no_comu",
-      str_detect(descrip_grupo10,"Infecc|nutri|perinat") ~ "comu,mate,neonat,nutri",
-      str_detect(descrip_grupo10,"Lesiones") ~ "lesi",
-      str_detect(descrip_grupo10,"neo|sistema|aparat") ~ "no_comu"
+      str_detect(!!descrip_grupo110,"Infecc|nutri|perinat") ~ "comu,mate,neonat,nutri",
+      str_detect(!!descrip_grupo110,"Lesiones") ~ "lesi",
+      str_detect(!!descrip_grupo110,"neo|sistema|aparat") ~ "no_comu"
     ),
     col_t=case_when(
       str_detect(col,"no_comu") ~ "blue",
@@ -277,6 +280,71 @@ cdc_region_heatmap <- function(data,time,name,value,...) {
     )
 
   list(data=heattile_data,plot=heattile_plot) %>% return()
+
+}
+#' @describeIn cdc_changeplot crear heatmap en un grilla data
+#' @inheritParams cdc_changeplot
+cdc_region_heatmap_data <- function(data,time,name,value,...) {
+
+  mort_per2 <- data
+  year <- enquo(time)
+  descrip_grupo110 <- enquo(name)
+  dar_cmil <- enquo(value)
+
+  heattile_data <- mort_per2 %>%
+    #filtrar top de enfermedades
+    filter(#!!descrip_grupo110 %in% mort_top_n2,
+      !!year==max(!!year)) %>%
+    arrange(departamento,desc(!!dar_cmil)) %>%
+    group_by(...,departamento) %>%
+    #top_n(n = 10,wt = !!dar_cmil) %>%
+    mutate(rank = row_number()) %>%
+    top_n(n = 10,wt = !!dar_cmil) %>%
+    ungroup() %>%
+    #ordenar enfermedades y departamentos por suma tasas!
+    mutate(
+      # !!descrip_grupo110:=reorder_within(!!descrip_grupo110, -!!dar_cmil, ...),
+      # departamento=reorder_within(departamento, -!!dar_cmil, ...)
+      !!descrip_grupo110:=fct_reorder(!!descrip_grupo110,-!!dar_cmil,mean),
+      departamento=fct_reorder(departamento,-!!dar_cmil,mean)
+    ) %>%
+    mutate(rank=if_else(!!dar_cmil==0,NA_integer_,rank)) %>%
+    filter(!is.na(rank))
+
+  heattile_data %>% return()
+
+}
+#' @describeIn cdc_changeplot crear heatmap en un grilla ggplot
+#' @inheritParams cdc_changeplot
+cdc_region_heatmap_ggplot <- function(cdc_region_heatmap_data,name,value,...) {
+
+  #mort_per2 <- data
+  heattile_data <- cdc_region_heatmap_data
+  #year <- enquo(time)
+  descrip_grupo110 <- enquo(name)
+  dar_cmil <- enquo(value)
+
+  heattile_plot <- heattile_data %>%
+    ggplot(aes(departamento,!!descrip_grupo110,
+               fill=!!dar_cmil,
+               #fill=rank,
+               label=rank
+    )
+    ) +
+    geom_tile() +
+    geom_text(size=2) +
+    scale_fill_gradient(#"Tasa*\nx 100 mil\nhab.",
+      trans = "log",
+      breaks = c(1,10,25,50,100,200), #c(1,5,10),
+      high = "#ff0000",low = "#ffff76"#,mid="yellow",
+      #midpoint = -5,#limits=c(1,10) ,#trans = "reverse"
+    ) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1),
+          #panel.grid.major.y = element_blank()
+          #panel.grid = element_blank()
+    )
+
+  heattile_plot %>% return()
 
 }
 #' @describeIn cdc_changeplot crear treemap con dos niveles
