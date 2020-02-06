@@ -34,6 +34,6 @@ Llama y genera base de datos consolidada de morbilidad  segun departamento, prov
 # library(dplyr)
 
 # # Extraemos la base de datos
-# lima<-cdc_extraer("lima")
+# lima<-his_extraer("lima")
 
 }

@@ -4,7 +4,7 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 
 ## main functionalities
 
-### ASIS: national-department level
+### ASIS: national-department level (`cdcper_asis`)
 
 - `cdc_mortality`: total de muertes y tasas de mortalidad por combinación de covariables (*dar nombre: cdc_age_adjusted_rates)
 - `cdc_denominator`: generar denominador por combinación de rangos de edad o región administrativa (*bases pendientes)
@@ -12,33 +12,39 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 - `cdc_egresos_summary`: total de egresos por combinación de covariables
 - `cdc_egresos_by_year`: exportar base en formato extendido (wide)
 - `his_create`: limpiar bases de HIS MIS
-- `his_extract`: nuir bases de HIS MIS por departamento
+- `his_extract`: unir bases de HIS MIS por departamento
 
-### ASIS: department-district level
+### ASIS: department-district level (`cdcper_asis`)
 
 - `his_extraer`: funcion para llamar base de datos de morbilidad por Area administrativa
 - `cdc_pareto`: funcion para crear diagrama de Pareto
 - `cdc_mapa_morb`: funcion para crear mapa coropletico
 
-### Surveillance data management
+### Climate data (`cdc_met`)
+
+- `get_ids`: función que contiene la ubicación de la información
+- `get_data_gri`: función que realiza la descarga de información
+- `var_fun`: función para realizar suma o promedio dependiendo de la variable asignada
+
+### Surveillance data management (`cdcper_sitrep`)
 
 - `clean_eda_sp`: limpia base consolidada de EDA (vigilancia semanal)
 - `clean_ira_sp`: limpia base consolidada de IRA (vigilancia semanal)
 - `cdc_casos_tiempo`: resume casos por semana de EDA o IRA
 - `cdc_casos_nacional`: resume casos de EDA o IRA en el presente año
 
-### Endemic channels
+### Endemic channels (`cdcper_echannel`)
 
 - `cdc_endemic_channel_mutate`: crea canal endémico con un número de años previos
 - `cdc_endemic_channel_join`: une canal endémico con la información de la vigilancia actual
 - `cdc_endemic_channel_ggplot`: crea el gráfico de canal endémico con las zonas esperadas y datos observados
 
-### Prioritization functions for Data Mining 
+### Prioritization functions for Data Mining (`cdcper_asis`)
 
 - `cdc_pareto_lista`: calcula porcentaje de aporte individual y aporte acumulado de elementos en una lista a priorizar 
 - `cdc_carga_coalesce`: permite unir (logical connector OR) los listas priorizadas y generar una lista concenso.
 
-### Spatial analysis
+### Spatial analysis (`cdcper_spatial`)
 
 - `cdc_choropleth`: mapa coropletico estático
 - `cdc_choropleth_facet`: mapa coropletico estático segmentado por facets
@@ -48,12 +54,7 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 - `cdc_geo_point_heatmap`: mapa de calor de datos puntuales + visualización de puntos 
 - `cdc_geo_point_heat_mark`: mapa de datos puntuales con dos valores a graficar (e.g. casos confirmados y PCR positivos para agente patógeno)
 
-### Climate data
-
-- `get_ids`: función que contiene la ubicación de la información
-- `get_data_gri`: función que realiza la descarga de información
-
-### Visualization functions
+### Visualization functions (`cdcper_asis`)
 
 - `cdc_piramide`: generar pirámide poblacional (*adaptarlo como un geom_piramid para usar con ggplot)
 - `cdc_changeplot`: comparación del cambio (Y) vs el estado actual (X) entre dos años mediante un grafico de puntos.
