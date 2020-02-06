@@ -3,18 +3,25 @@
 \docType{data}
 \name{mortdb}
 \alias{mortdb}
+\alias{denominadores_departamento_2000_2020_peru}
+\alias{edad_estandarizada_who}
 \title{Mortality database}
 \format{An object of class dataset.}
 \source{
-CDC-MINSA, <https://www.dge.gob.pe/portal/>
+CDC-MINSA, <https://www.dge.gob.pe/portal/> ; World (WHO 2000-2025) Standard <https://seer.cancer.gov/stdpopulations/world.who.html>
 }
 \usage{
 data(mortdb)
+
+denominadores_departamento_2000_2020_peru
+
+edad_estandarizada_who
 }
 \description{
-Random subset of mortality database from Peru 2013-15
+Random subset of mortality database from Peru 2013-2015
 }
 \examples{
+library(cdcper)
 library(tidyverse)
 data(mortdb)
 mortdb \%>\% glimpse()

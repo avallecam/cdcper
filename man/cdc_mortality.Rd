@@ -62,71 +62,76 @@ API para la generación de bases resumen para la creación de gráficos de tende
 
 \examples{
 
-# ISSUE: subir base denominadores al paquete!
 
-# # dependencies ------------------------------------------------------------
-#
-# #flexibility on dot-dot-dot
-# #https://stackoverflow.com/questions/7028385/can-i-remove-an-element-in-dot-dot-dot-and-pass-it-on
-# #https://www.burns-stat.com/the-three-dots-construct-in-r/
-#
-# library(tidyverse)
-# library(magrittr)
-# library(readxl)
-# library(haven)
-# library(naniar)
-# library(ggrepel)
-# library(labelled)
-# library(gridExtra)
-#
-# # importar base ----------------------------------------------------------------
-#
-# mortdb <- data(mortdb)
-#
-# # importar denominadores -------------------------------------------------------
-#
-# denomi_pe <- read_rds("data/pop_pe-year_dept_age_std_sex-2000_2020.rds") \%>\%
-#   mutate(sexo=str_to_title(sexo))
-#
-# fctwho_std <- read_rds("data/who-age_std-2000_2025.rds") #same estandard per sex
-#
-# # CDR + DAR ---------------------------------------------
-#
-# # formato de base nominal
-# mortdb \%>\% glimpse()
-#
-# #cuando mort y deno comparten covariables
-# cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year)
-# cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year,sexo)
-# cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year,sexo,departamento)
-# cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year,departamento)
-# cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year)
-#
-# #cuando mort y deno no comparten covariables
-# deno_ys <- cdc_denominator(denominador = denomi_pe,year,sexo)
-# cdc_mortality_2(data = mortdb,
-#                 denominador = deno_ys,
-#                 estandar = fctwho_std,
-#                 year,sexo,descrip_grupo10)
-# #o todo en una
-# cdc_mortality_2(data = mortdb,
-#                 denominador = cdc_denominator(denominador = denomi_pe,year),
-#                 estandar = fctwho_std,
-#                 year,edad_q)
-# cdc_mortality_2(data = mortdb \%>\% filter(edad_estandar=="0-4"),
-#                 denominador = cdc_denominator(denominador = denomi_pe,year),
-#                 estandar = fctwho_std,
-#                 year,edad_estandar)
-#
-# #cuando no se requiere tasas
-# mortdb \%>\% count(year,edadmef) #edad_fertil
-# mortdb \%>\% count(year,edad_asis2015) #etapas de vida
-#
-# # opcionalmente, se puede exportar en RDS y DTA
+# dependencies ------------------------------------------------------------
+
+#flexibility on dot-dot-dot
+#https://stackoverflow.com/questions/7028385/can-i-remove-an-element-in-dot-dot-dot-and-pass-it-on
+#https://www.burns-stat.com/the-three-dots-construct-in-r/
+
+library(cdcper)
+library(tidyverse)
+library(magrittr)
+library(readxl)
+library(haven)
+library(naniar)
+library(ggrepel)
+library(labelled)
+library(gridExtra)
+
+# importar base ----------------------------------------------------------------
+
+data(mortdb)
+mortdb
+
+# importar denominadores -------------------------------------------------------
+
+data(denominadores_departamento_2000_2020_peru)
+denomi_pe <- denominadores_departamento_2000_2020_peru
+
+data(edad_estandarizada_who)
+fctwho_std <- edad_estandarizada_who
+
+# CDR + DAR ---------------------------------------------
+
+# formato de base nominal
+mortdb \%>\% glimpse()
+
+#cuando mort y deno comparten covariables
+cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year)
+cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year,sexo)
+cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year,sexo,departamento)
+cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year,departamento)
+cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std, year)
+
+#cuando mort y deno no comparten covariables
+deno_ys <- cdc_denominator(denominador = denomi_pe,year,sexo)
+cdc_mortality_2(data = mortdb,
+                denominador = deno_ys,
+                estandar = fctwho_std,
+                year,sexo,descrip_grupo10)
+#o todo en una
+cdc_mortality_2(data = mortdb,
+                denominador = cdc_denominator(denominador = denomi_pe,year),
+                estandar = fctwho_std,
+                year,edad_q)
+cdc_mortality_2(data = mortdb \%>\% filter(edad_estandar=="0-4"),
+                denominador = cdc_denominator(denominador = denomi_pe,year),
+                estandar = fctwho_std,
+                year,edad_estandar)
+
+#cuando no se requiere tasas
+mortdb \%>\% count(year,edadmef) #edad_fertil
+mortdb \%>\% count(year,edad_asis2015) #etapas de vida
+
+# opcionalmente, se puede exportar en RDS y DTA
 # cdc_mortality(data = mortdb,denominador = denomi_pe,estandar = fctwho_std,year,sexo,
 #               rute_name = "data/mortalidad_anual_nacional_sexo")
-#
-# # formato wide para exportar tabla resumen en CSV y XLSX
+
+# formato wide para exportar tabla resumen en CSV y XLSX
+mortdb \%>\%
+  cdc_mortality(denominador = denomi_pe,estandar = fctwho_std,year,sexo,departamento) \%>\%
+  cdc_mortality_to_wide()
 # mortdb \%>\%
 #   cdc_mortality(denominador = denomi_pe,estandar = fctwho_std,year,sexo,departamento) \%>\%
 #   cdc_mortality_to_wide(rute_name = "table/mortalidad_anual_nacional_sexo_departamento")
