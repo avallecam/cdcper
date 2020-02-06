@@ -59,12 +59,3 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 ## To-Do
 
 ( ) issue: _no visible global function definition_ estas usando muchas nombres de columna no declarados
-
-(X) issue: how to save a dataset inside the r package -> solucion es conservar el nombre de guardado con el nombre de archivo
-
-* egresos
-- qué pasa con la base de egresos?
-> Error: 'egresos' is not an exported object from 'namespace:cdcper'
-> Ejecuci�n interrumpida
-> Exited with status 1.
-- respuesta: se debe usar el mismo nombre de archivo y nombre original al crear el objeto Rda
