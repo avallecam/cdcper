@@ -14,7 +14,11 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 - `his_create`: limpiar bases de HIS MIS
 - `his_extract`: nuir bases de HIS MIS por departamento
 
-### ASIS: district level
+### ASIS: department-district level
+
+- `his_extraer`: funcion para llamar base de datos de morbilidad por Area administrativa
+- `cdc_pareto`: funcion para crear diagrama de Pareto
+- `cdc_mapa_morb`: funcion para crear mapa coropletico
 
 ### Surveillance data management
 
@@ -45,6 +49,9 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 - `cdc_geo_point_heat_mark`: mapa de datos puntuales con dos valores a graficar (e.g. casos confirmados y PCR positivos para agente patógeno)
 
 ### Climate data
+
+- `get_ids`: función que contiene la ubicación de la información
+- `get_data_gri`: función que realiza la descarga de información
 
 ### Visualization functions
 
