@@ -1,6 +1,6 @@
-#' Mortality database
+#' CDC databases: Mortality, Hospital outflows, and more
 #'
-#' Random subset of mortality database from Peru 2013-2015
+#' Random subset of mortality (2013-2015), hospital outflows (2000-2015) databases from Peru
 #'
 #' @docType data
 #'
@@ -28,3 +28,6 @@
 
 #' @rdname mortdb
 "edad_estandarizada_who"
+
+#' @rdname mortdb
+"egresos_hospitalarios"

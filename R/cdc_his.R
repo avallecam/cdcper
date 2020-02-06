@@ -33,7 +33,7 @@ his_create <- function(data_index,i_info) { #i_info=1
     mutate(nombdep=str_to_upper(nombdep)) %>%
     return()
 }
-#' @describeIn clean_eda_sp unir bases por departamento
+#' @describeIn his_create unir bases por departamento
 #' @inheritParams his_create
 #' @param i_ord identificador
 his_extract <- function(data_index,i_ord) {#i_ord=1

@@ -5,7 +5,8 @@
 \alias{mortdb}
 \alias{denominadores_departamento_2000_2020_peru}
 \alias{edad_estandarizada_who}
-\title{Mortality database}
+\alias{egresos_hospitalarios}
+\title{CDC databases: Mortality, Hospital outflows, and more}
 \format{An object of class dataset.}
 \source{
 CDC-MINSA, <https://www.dge.gob.pe/portal/> ; World (WHO 2000-2025) Standard <https://seer.cancer.gov/stdpopulations/world.who.html>
@@ -16,9 +17,11 @@ data(mortdb)
 denominadores_departamento_2000_2020_peru
 
 edad_estandarizada_who
+
+egresos_hospitalarios
 }
 \description{
-Random subset of mortality database from Peru 2013-2015
+Random subset of mortality (2013-2015), hospital outflows (2000-2015) databases from Peru
 }
 \examples{
 library(cdcper)
