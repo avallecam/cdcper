@@ -11,12 +11,14 @@
 #' @import dplyr
 #' @import tidyr
 #' @import rlang
+#' @import ggrepel
 #'
 #' @return selección por criterio pareto y coalescencia para multiples covariables
 #'
 #' @export cdc_pareto_lista
 #' @export cdc_pareto_lista_2
 #' @export cdc_carga_coalesce
+#' @export cdc_pareto_plot
 #'
 #' @examples
 #'
@@ -70,4 +72,39 @@ cdc_carga_coalesce <- function(data) {
     pivot_wider(names_from = key,values_from = value) %>%
     mutate(cut_coalesce = coalesce(!!! select(.,starts_with("cut_")))) #%>%
     #filter(!is.na(cut_coalesce)) #%>% select(year:subcat,cut_coalesce)
+}
+
+#' @describeIn cdc_pareto_lista grafico de pareto: % individual vs % acumulado
+#' @inheritParams cdc_pareto_lista
+#' @param cdc_pareto_lista resultado de cdc_pareto_lista
+#' @param pct_ % individual
+#' @param cum_ % acumulado
+#' @param variable_value nombre de la variable numerica evaluada
+#' @param variable_label nombre de la variable para las etiquetas
+
+cdc_pareto_plot <- function(cdc_pareto_lista,pct_,cum_,
+                            variable_value,variable_label) {
+
+  cdc_pareto_lista %>%
+    ggplot(aes(x = {{pct_}}, y = {{cum_}},
+               size={{variable_value}})) +
+    geom_point(aes(color={{variable_value}},
+                   #alpha={{variable_value}}
+                   )
+               ) +
+    scale_color_viridis_c() +
+    scale_y_continuous(breaks = seq(0,100,5),
+                       labels = seq(0,100,5)) +
+    scale_x_continuous(breaks = seq(0,100,5),
+                       labels = seq(0,100,5)) +
+    coord_fixed(ratio = 1) +
+    ggrepel::geom_text_repel(aes(label={{variable_label}}),
+                             direction    = "y",
+                             vjust        = 1,
+                             hjust        = 0,
+                             force        = 0.5,
+                             nudge_x      = 6.85,
+                             nudge_y      = 6.85,
+                             segment.size = 0.2,
+                             show.legend = F)
 }

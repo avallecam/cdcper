@@ -4,6 +4,7 @@
 \alias{cdc_pareto_lista}
 \alias{cdc_pareto_lista_2}
 \alias{cdc_carga_coalesce}
+\alias{cdc_pareto_plot}
 \title{Priorizar listados en base a multiples covariables}
 \usage{
 cdc_pareto_lista(data, variable, pareto_cut = 85)
@@ -11,6 +12,9 @@ cdc_pareto_lista(data, variable, pareto_cut = 85)
 cdc_pareto_lista_2(data, variable_c, variable_d, pareto_cut = 80)
 
 cdc_carga_coalesce(data)
+
+cdc_pareto_plot(cdc_pareto_lista, pct_, cum_, variable_value,
+  variable_label)
 }
 \arguments{
 \item{data}{base de datos}
@@ -22,6 +26,16 @@ cdc_carga_coalesce(data)
 \item{variable_c}{variable continua}
 
 \item{variable_d}{variable discreta}
+
+\item{cdc_pareto_lista}{resultado de cdc_pareto_lista}
+
+\item{pct_}{% individual}
+
+\item{cum_}{% acumulado}
+
+\item{variable_value}{nombre de la variable numerica evaluada}
+
+\item{variable_label}{nombre de la variable para las etiquetas}
 }
 \value{
 selección por criterio pareto y coalescencia para multiples covariables
@@ -36,6 +50,8 @@ Mostrar qué elementos representan el 80% de la suma total
 \item \code{cdc_pareto_lista_2}: priorización con dos covariables
 
 \item \code{cdc_carga_coalesce}: coalescencia de multiples covariables
+
+\item \code{cdc_pareto_plot}: grafico de pareto: % individual vs % acumulado
 }}
 
 \examples{
