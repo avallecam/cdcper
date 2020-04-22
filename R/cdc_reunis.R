@@ -13,6 +13,7 @@
 #' @import readxl
 #' @import purrr
 #' @import tibble
+#' @import stringr
 #'
 #' @return tidy tables a partir de poblacion a nivel nacional de la REUNIS
 #'
