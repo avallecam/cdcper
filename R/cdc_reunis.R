@@ -17,6 +17,8 @@
 #'
 #' @export read_reunis_total
 #' @export read_reunis_edad
+#' @export poblacion_distrital_clean
+#' @export read_inei_poblacion
 #'
 #' @examples
 #'
