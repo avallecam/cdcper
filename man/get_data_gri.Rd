@@ -3,6 +3,7 @@
 \name{get_data_gri}
 \alias{get_data_gri}
 \alias{get_ids}
+\alias{var_fun}
 \title{Descarga de información meteorológica}
 \usage{
 get_data_gri(var, dep = NULL, pro = NULL, dis = NULL, ids = NULL,
@@ -10,6 +11,8 @@ get_data_gri(var, dep = NULL, pro = NULL, dis = NULL, ids = NULL,
   down = FALSE, filename = paste0("Grilla_", var, ".csv"))
 
 get_ids(fuente = "local", ruta = NULL)
+
+var_fun(x, var)
 }
 \arguments{
 \item{var}{Variable que será buscada. Puede ser "Prec", "Tmax" o "Tmin".}
@@ -33,6 +36,10 @@ get_ids(fuente = "local", ruta = NULL)
 \item{down}{Indique si la información se descargará en un archivo (TRUE) o no (FALSE).}
 
 \item{filename}{Nombre del archivo donde se exportará la información.}
+
+\item{x}{Datos serán sumados (precipitación) o promediados (el resto).}
+
+\item{var}{Nombre de la variable}
 }
 \value{
 Tabla con información de una variable meteorológica para una lugar, tiempo y escala temporal específica.
@@ -58,6 +65,8 @@ Usos
 \item \code{get_data_gri}: función que realiza la descarga de información
 
 \item \code{get_ids}: función que contiene la ubicación de la información
+
+\item \code{var_fun}: var_fun (description pending)
 }}
 
 \examples{
