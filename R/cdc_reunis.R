@@ -10,6 +10,8 @@
 #' @import dplyr
 #' @import tidyr
 #' @import janitor
+#' @import readxl
+#' @import purrr
 #'
 #' @return tidy tables a partir de poblacion a nivel nacional de la REUNIS
 #'
