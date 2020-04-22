@@ -20,7 +20,12 @@
 #'
 #' @examples
 #'
-#' # read_reunis_total(file = "data-raw/Poblacion Peru 2020 Dpto Prov Dist Final INEI-actualizado.xlsx",year = 2020)
+#' # rute_1 <- "data-raw/Poblacion Peru 2020 Dpto Prov Dist Final INEI-actualizado.xlsx"
+#' # read_reunis_total(file = rute_1,year = 2020)
+#' # read_reunis_edad(file = rute_1, year = 2020)
+#' #
+#' # rute_2 <- "data-raw/PERÚ - ESTIMACIONES Y PROYECCIONES DE POBLACIÓN ( BOLETINES ESPECIALES 17,18,19,20,21,22 y 36,37)/Libro18/cuadros/"
+#' # read_inei_poblacion(folder = rute_2,file_name = "c1600") %>% count(anho)
 #'
 
 read_reunis_total <- function(file,year) {
