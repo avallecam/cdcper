@@ -4,6 +4,10 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 
 ## main functionalities
 
+### General usefull functions
+
+- `cdc_edades_peru`: crea categorias de edades comunmente usadas
+
 ### ASIS: national-department level (`cdcper_asis`)
 
 - `cdc_mortality`: total de muertes y tasas de mortalidad por combinación de covariables (*dar nombre: cdc_age_adjusted_rates)

@@ -20,10 +20,16 @@
 #' library(charlatan)
 #' library(skimr)
 #' library(rlang)
-#' data_edad <- tibble(age=charlatan::ch_integer(n = 50,min = 2,max = 80))
-#' data_edad %>% skimr::skim()
+#' data_edad <- tibble(age=charlatan::ch_integer(n = 100,min = 2,max = 100))
+#' data_edad %>% skimr::skim_to_wide() %>% select(-hist)
 #' data_edad %>%
 #'   cdc_edades_peru(variable_edad = age)
+#' data_edad %>%
+#'   cdc_edades_peru(variable_edad = age) %>%
+#'   select(age,edad_quinquenal) %>%
+#'   group_by(edad_quinquenal) %>%
+#'   skimr::skim_to_wide() %>%
+#'   select(edad_quinquenal,p0:p100)
 #'
 
 
@@ -33,14 +39,14 @@ cdc_edades_peru <- function(data,variable_edad) {
     mutate(
       edad_etapas_de_vida_c =
         case_when(
-          edad >= 0 & edad < 12 ~ "00_11a",
+          edad >= 0 & edad < 12 ~ "0_11a",
           edad >= 12 & edad < 18 ~ "12_17a",
           edad >= 18 & edad < 30 ~ "18_29a",
           edad >= 30 & edad < 60 ~ "30_59a",
           edad >= 60 ~ "60a_mas",
           TRUE ~ NA_character_),
       edad_etapas_de_vida_t = case_when(
-        edad_etapas_de_vida_c == "00_11a" ~ "ninho",
+        edad_etapas_de_vida_c == "0_11a" ~ "ninho",
         edad_etapas_de_vida_c == "12_17a" ~ "adolescente",
         edad_etapas_de_vida_c == "18_29a" ~ "joven",
         edad_etapas_de_vida_c == "30_59a" ~ "adulto",
@@ -48,7 +54,7 @@ cdc_edades_peru <- function(data,variable_edad) {
         TRUE ~ edad_etapas_de_vida_c),
       edad_etapas_de_vida_c =
         fct_relevel(edad_etapas_de_vida_c,
-                    "00_11a",
+                    "0_11a",
                     "12_17a",
                     "18_29a",
                     "30_59a",
