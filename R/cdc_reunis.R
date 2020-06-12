@@ -38,7 +38,11 @@ read_reunis_total <- function(file,year) {
     filter(!is.na(total)) %>%
     select(ubigeo:total) %>%
     mutate(ano=year) %>%
-    select(ano,everything())
+    select(ano,everything()) %>%
+    mutate(ubigeo=case_when(
+      str_length(ubigeo)==7~str_replace(ubigeo,"(......).+","\\1"),
+      TRUE ~ ubigeo
+    ))
 }
 
 #' @describeIn read_reunis_total priorización con dos covariables
@@ -75,7 +79,11 @@ read_reunis_edad <- function(file,year) {
     separate(key,c("sex","age"),sep = "__") %>%
     arrange(ubigeo,age,sex) %>%
     mutate(ano=year) %>%
-    select(ano,everything())
+    select(ano,everything()) %>%
+    mutate(ubigeo=case_when(
+      str_length(ubigeo)==7~str_replace(ubigeo,"(......).+","\\1"),
+      TRUE ~ ubigeo
+    ))
 }
 
 #' @describeIn read_reunis_total priorización con dos covariables

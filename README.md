@@ -7,6 +7,9 @@ Paquete en R para automatizar la generación y exploración de reportes, tablas,
 ### General usefull functions
 
 - `cdc_edades_peru`: crea categorias de edades comunmente usadas
+- `read_reunis_total`: ordena base de reunis para brindar la poblacion del año en curso
+- `read_reunis_edad`: brinda la población estratificada por sexo y etapas de vida
+- `read_inei_poblacion`: lee archivos de inei de población (revisar ejemplo)
 
 ### ASIS: national-department level (`cdcper_asis`)
 
