@@ -5,6 +5,8 @@
 \alias{read_reunis_edad}
 \alias{poblacion_distrital_clean}
 \alias{read_inei_poblacion}
+\alias{read_reunis_edad_pediatricx}
+\alias{read_reunis_edad_quinquenio}
 \title{Tidy up REUNIS tables}
 \usage{
 read_reunis_total(file, year)
@@ -14,6 +16,10 @@ read_reunis_edad(file, year)
 poblacion_distrital_clean(path)
 
 read_inei_poblacion(path, file_name)
+
+read_reunis_edad_pediatricx(file, year)
+
+read_reunis_edad_quinquenio(file, year)
 }
 \arguments{
 \item{file}{nombre de archivo}
@@ -39,6 +45,10 @@ Tidy up REUNIS tables of population at district level. Ver: [REUNIS](https://www
 \item \code{poblacion_distrital_clean}: priorización con dos covariables
 
 \item \code{read_inei_poblacion}: priorización con dos covariables
+
+\item \code{read_reunis_edad_pediatricx}: priorización con dos covariables
+
+\item \code{read_reunis_edad_quinquenio}: priorización con dos covariables
 }}
 
 \examples{

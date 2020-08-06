@@ -21,15 +21,15 @@
 #' library(skimr)
 #' library(rlang)
 #' data_edad <- tibble(age=charlatan::ch_integer(n = 100,min = 2,max = 100))
-#' data_edad %>% skimr::skim_to_wide() %>% select(-hist)
+#' data_edad %>% skimr::skim_without_charts()
 #' data_edad %>%
 #'   cdc_edades_peru(variable_edad = age)
 #' data_edad %>%
 #'   cdc_edades_peru(variable_edad = age) %>%
 #'   select(age,edad_quinquenal) %>%
 #'   group_by(edad_quinquenal) %>%
-#'   skimr::skim_to_wide() %>%
-#'   select(edad_quinquenal,p0:p100)
+#'   skimr::skim() %>%
+#'   select(edad_quinquenal,numeric.p0:numeric.p100)
 #'
 
 
@@ -88,6 +88,39 @@ cdc_edades_peru <- function(data,variable_edad) {
                                    "40 a 44 años","45 a 49 años", "50 a 54 años","55 a 59 años",
                                    "60 a 64 años","65 a 69 años","70 a 74 años","75 a 79 años",
                                    "80 a 84 años","85 a 89 años", "90 a  mas años"),
-                          include.lowest = T,ordered_result = T)
-    )
+                          include.lowest = T,ordered_result = T
+                          ),
+      edad_decenios=cut(edad,
+                          breaks=c(0, seq(10,100,10), Inf),
+                          # labels=c("0 a 4 años","5 a 9 años","10 a 14 años", "15 a 19 años",
+                          #          "20 a 24 años","25 a 29 años","30 a 34 años","35 a 39 años",
+                          #          "40 a 44 años","45 a 49 años", "50 a 54 años","55 a 59 años",
+                          #          "60 a 64 años","65 a 69 años","70 a 74 años","75 a 79 años",
+                          #          "80 a 84 años","85 a 89 años", "90 a  mas años"),
+                          include.lowest = T,ordered_result = T,right = F
+      ),
+      edad_quinquenal_raw=cut(edad,
+                        breaks=c(0, 1, seq(5,100,5), Inf),
+                        # labels=c("0 a 4 años","5 a 9 años","10 a 14 años", "15 a 19 años",
+                        #          "20 a 24 años","25 a 29 años","30 a 34 años","35 a 39 años",
+                        #          "40 a 44 años","45 a 49 años", "50 a 54 años","55 a 59 años",
+                        #          "60 a 64 años","65 a 69 años","70 a 74 años","75 a 79 años",
+                        #          "80 a 84 años","85 a 89 años", "90 a  mas años"),
+                        include.lowest = T,ordered_result = T,right = F
+      )
+      ) %>%
+    mutate(
+      edad_etapas_de_vida_n =
+        case_when(
+          edad >= 0 & edad < 1 ~ "00_00a",
+          edad >= 1 & edad < 5 ~ "01_04a",
+          edad >= 5 & edad < 10 ~ "05_09a",
+          edad >= 10 & edad < 15 ~ "10_14a",
+          TRUE ~ NA_character_),
+      edad_etapas_de_vida_n =
+        fct_relevel(edad_etapas_de_vida_n,
+                    "00_00a",
+                    "01_04a",
+                    "05_09a",
+                    "10_14a"))
 }

@@ -29,14 +29,14 @@ library(charlatan)
 library(skimr)
 library(rlang)
 data_edad <- tibble(age=charlatan::ch_integer(n = 100,min = 2,max = 100))
-data_edad \%>\% skimr::skim_to_wide() \%>\% select(-hist)
+data_edad \%>\% skimr::skim_without_charts()
 data_edad \%>\%
   cdc_edades_peru(variable_edad = age)
 data_edad \%>\%
   cdc_edades_peru(variable_edad = age) \%>\%
   select(age,edad_quinquenal) \%>\%
   group_by(edad_quinquenal) \%>\%
-  skimr::skim_to_wide() \%>\%
-  select(edad_quinquenal,p0:p100)
+  skimr::skim() \%>\%
+  select(edad_quinquenal,numeric.p0:numeric.p100)
 
 }

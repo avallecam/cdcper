@@ -21,6 +21,8 @@
 #' @export read_reunis_edad
 #' @export poblacion_distrital_clean
 #' @export read_inei_poblacion
+#' @export read_reunis_edad_pediatricx
+#' @export read_reunis_edad_quinquenio
 #'
 #' @examples
 #'
@@ -117,4 +119,116 @@ read_inei_poblacion <- function(path,file_name) {
     unnest(cols = c(file))
 
 }
+
+#' @describeIn read_reunis_total priorización con dos covariables
+#' @inheritParams read_reunis_total
+
+read_reunis_edad_pediatricx <- function(file,year) {
+  readxl::read_excel(file,sheet = 5,skip = 6) %>%
+    janitor::clean_names() %>%
+    filter(!is.na(total)) %>%
+    # colnames()
+    mutate(
+      "h__00_00a" = pmap(select(.,x0_7),sum),
+      "h__01_04a" = pmap(select(.,x1_8:x4_11),sum),
+      "h__05_09a" = pmap(select(.,x5_12:x9_16),sum),
+      "h__10_14a" = pmap(select(.,x10_17:x14_21),sum),
+      "m__00_00a" = pmap(select(.,x0_41),sum),
+      "m__01_04a" = pmap(select(.,x1_42:x4_45),sum),
+      "m__05_09a" = pmap(select(.,x5_46:x9_50),sum),
+      "m__10_14a" = pmap(select(.,x10_51:x14_55),sum),
+    ) %>%
+    unnest() %>%
+    select(ubigeo:distrito,#total,h_tot=x6,m_tot=x40,
+           h__00_00a:m__10_14a) %>%
+
+    # #test: successfully!
+    # mutate(total_new=pmap(select(.,h_0_11a:m_60a_mas),sum)) %>%
+    # unnest() %>%
+    # select(total,total_new) %>%
+    # filter(total != total_new )
+
+    gather(key,value,h__00_00a:m__10_14a) %>%
+    #filter(ubigeo!="000000") %>%
+    separate(key,c("sex","age"),sep = "__") %>%
+    arrange(ubigeo,age,sex) %>%
+    mutate(ano=year) %>%
+    select(ano,everything()) %>%
+    mutate(ubigeo=case_when(
+      str_length(ubigeo)==7~str_replace(ubigeo,"(......).+","\\1"),
+      TRUE ~ ubigeo
+    ))
+}
+
+#' @describeIn read_reunis_total priorización con dos covariables
+#' @inheritParams read_reunis_total
+
+read_reunis_edad_quinquenio <- function(file,year) {
+  readxl::read_excel(file,sheet = 5,skip = 6) %>%
+    janitor::clean_names() %>%
+    filter(!is.na(total)) %>%
+    # colnames()
+    mutate(
+      # por quinquenios de edad
+      #hombre
+      "h__00_00a" = pmap(select(.,x0_7),sum),
+      "h__01_04a" = pmap(select(.,x1_8:x4_11),sum),
+      "h__05_09a" = pmap(select(.,x5_12:x9_16),sum),
+      "h__10_14a" = pmap(select(.,x10_17:x14_21),sum),
+      "h__15_19a" = pmap(select(.,x15_22:x19_26),sum),
+      "h__20_24a" = x20_24_27,
+      "h__25_29a" = x25_29_28,
+      "h__30_34a" = x30_34_29,
+      "h__35_39a" = x35_39_30,
+      "h__40_44a" = x40_44_31,
+      "h__45_49a" = x45_49_32,
+      "h__50_54a" = x50_54_33,
+      "h__55_59a" = x55_59_34,
+      "h__60_64a" = x60_64_35,
+      "h__65_69a" = x65_69_36,
+      "h__70_74a" = x70_74_37,
+      "h__75_79a" = x75_79_38,
+      "h__80_nna" = x80_y_39,
+      #mujer
+      "m__00_00a" = pmap(select(.,x0_41),sum),
+      "m__01_04a" = pmap(select(.,x1_42:x4_45),sum),
+      "m__05_09a" = pmap(select(.,x5_46:x9_50),sum),
+      "m__10_14a" = pmap(select(.,x10_51:x14_55),sum),
+      "m__15_19a" = pmap(select(.,x15_56:x19_60),sum),
+      "m__20_24a" = x20_24_61,
+      "m__25_29a" = x25_29_62,
+      "m__30_34a" = x30_34_63,
+      "m__35_39a" = x35_39_64,
+      "m__40_44a" = x40_44_65,
+      "m__45_49a" = x45_49_66,
+      "m__50_54a" = x50_54_67,
+      "m__55_59a" = x55_59_68,
+      "m__60_64a" = x60_64_69,
+      "m__65_69a" = x65_69_70,
+      "m__70_74a" = x70_74_71,
+      "m__75_79a" = x75_79_72,
+      "m__80_nna" = x80_y_73,
+    ) %>%
+    unnest() %>%
+    select(ubigeo:distrito,#total,h_tot=x6,m_tot=x40,
+           h__00_00a:m__80_nna) %>%
+
+    # #test: successfully!
+    # mutate(total_new=pmap(select(.,h_0_11a:m_60a_mas),sum)) %>%
+    # unnest() %>%
+    # select(total,total_new) %>%
+    # filter(total != total_new )
+
+    gather(key,value,h__00_00a:m__80_nna) %>%
+    #filter(ubigeo!="000000") %>%
+    separate(key,c("sex","age"),sep = "__") %>%
+    arrange(ubigeo,age,sex) %>%
+    mutate(ano=year) %>%
+    select(ano,everything()) %>%
+    mutate(ubigeo=case_when(
+      str_length(ubigeo)==7~str_replace(ubigeo,"(......).+","\\1"),
+      TRUE ~ ubigeo
+    ))
+}
+
 
