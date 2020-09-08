@@ -8,7 +8,7 @@ Description: Generate Tables, Figures and Reports for the Peruvian Health Situat
     Generate maps with areal data for disease surveillance.
     Direct application of cluster algorithms.
 License: GPL-2
-Imports: tidyverse, ggrepel, rlang, janitor, readxl, charlatan, skimr, DT
+Imports: tidyverse, ggrepel, rlang, janitor, readxl, charlatan, skimr, DT, aweek
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1

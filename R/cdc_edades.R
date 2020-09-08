@@ -13,6 +13,7 @@
 #' @return tidy categorical variables from one continuous age variable
 #'
 #' @export cdc_edades_peru
+#' @export cdc_edades_clean
 #'
 #' @examples
 #'
@@ -124,3 +125,27 @@ cdc_edades_peru <- function(data,variable_edad) {
                     "05_09a",
                     "10_14a"))
 }
+
+#' @describeIn cdc_edades_peru priorización con dos covariables
+#' @inheritParams cdc_edades_peru
+#' @param tipo_edad tipo de edad: A, M, D o año, mes, día
+
+cdc_edades_clean <- function(data,variable_edad,tipo_edad) {
+  data %>%
+    mutate(edad={{variable_edad}},
+           tipo_edad={{tipo_edad}}) %>%
+    # select(edad) %>%
+    mutate(edad=case_when(
+      edad>150~NA_real_,
+      edad=TRUE~edad
+    )) %>%
+    # skimr::skim(edad)
+    # count(tipo_edad)
+    mutate(edad=case_when(
+      tipo_edad=="D"~edad/360,
+      tipo_edad=="M"~edad/12,
+      tipo_edad=="A"~edad,
+    )) %>%
+    select(-tipo_edad)
+}
+

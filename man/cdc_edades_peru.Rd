@@ -2,14 +2,19 @@
 % Please edit documentation in R/cdc_edades.R
 \name{cdc_edades_peru}
 \alias{cdc_edades_peru}
+\alias{cdc_edades_clean}
 \title{Clean age categories}
 \usage{
 cdc_edades_peru(data, variable_edad)
+
+cdc_edades_clean(data, variable_edad, tipo_edad)
 }
 \arguments{
 \item{data}{input dataset}
 
 \item{variable_edad}{edad como variable continua}
+
+\item{tipo_edad}{tipo de edad: A, M, D o año, mes, día}
 }
 \value{
 tidy categorical variables from one continuous age variable
@@ -20,6 +25,8 @@ Categorize continuous age into classical levels
 \section{Functions}{
 \itemize{
 \item \code{cdc_edades_peru}: 
+
+\item \code{cdc_edades_clean}: priorización con dos covariables
 }}
 
 \examples{
