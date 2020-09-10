@@ -12,11 +12,10 @@ importación bases de datos de relevancia para el CDC Perú.
 
 ## Installation
 
-You can install the released version of cdcper from
-[CRAN](https://CRAN.R-project.org) with:
+<!-- You can install the released version of cdcper from [CRAN](https://CRAN.R-project.org) with: install.packages("cdcper") -->
 
 ``` r
-install.packages("cdcper")
+devtools::install_github("avallecam/cdcper")
 ```
 
 ## Main functionalities
