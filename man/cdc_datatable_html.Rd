@@ -2,12 +2,19 @@
 % Please edit documentation in R/cdc_misc.R
 \name{cdc_datatable_html}
 \alias{cdc_datatable_html}
+\alias{cdc_cut_integer}
 \title{Unclassified functions}
 \usage{
 cdc_datatable_html(data)
+
+cdc_cut_integer(data, variable, number_cuts = 4, end_string = "_cut")
 }
 \arguments{
 \item{data}{input dataset}
+
+\item{variable}{variable a usar}
+
+\item{number_cuts}{numbers of cuts}
 }
 \value{
 html table
@@ -18,11 +25,14 @@ Create html table
 \section{Functions}{
 \itemize{
 \item \code{cdc_datatable_html}: 
+
+\item \code{cdc_cut_integer}: priorización con dos covariables
 }}
 
 \examples{
 
 library(tidyverse)
+mtcars \%>\% as_tibble() \%>\% cdc_cut_integer(qsec,3) \%>\% count(qsec_cut)
 iris \%>\% group_by(Species) \%>\% summarise_all(.funs = mean) \%>\% cdc_datatable_html()
 
 }
