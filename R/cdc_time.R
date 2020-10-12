@@ -55,7 +55,7 @@ cdc_yearweek_to_date <- function(data,year_integer,week_integer) {
     # string
     mutate(epiweek_w=str_c(year_integer,"-W",week_integer)) %>%
     # to aweek
-    mutate(epiweek_w=aweek::as.aweek(epiweek_w)) %>%
+    mutate(epiweek_w=aweek::as.aweek(epiweek_w,week_start = "Sunday")) %>%
     # to date
     mutate(epi_date=week2date(epiweek_w, week_start = "Sunday", floor_day = TRUE))
 }

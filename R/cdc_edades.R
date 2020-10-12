@@ -24,7 +24,7 @@
 #' data_edad <- tibble(age=charlatan::ch_integer(n = 100,min = 2,max = 100))
 #' data_edad %>% skimr::skim_without_charts()
 #' data_edad %>%
-#'   cdc_edades_peru(variable_edad = age)
+#'   cdc_edades_peru(variable_edad = age) %>% glimpse()
 #' data_edad %>%
 #'   cdc_edades_peru(variable_edad = age) %>%
 #'   select(age,edad_quinquenal) %>%
@@ -123,7 +123,25 @@ cdc_edades_peru <- function(data,variable_edad) {
                     "00_00a",
                     "01_04a",
                     "05_09a",
-                    "10_14a"))
+                    "10_14a")) %>%
+    mutate(
+      edad_inei_grupos =
+        case_when(
+          edad >= 0 & edad < 15 ~ "0_14a",
+          edad >= 15 & edad < 30 ~ "15_29a",
+          edad >= 30 & edad < 45 ~ "30_44a",
+          edad >= 45 & edad < 65 ~ "45_64a",
+          edad >= 65 ~ "65a_mas",
+          TRUE ~ NA_character_),
+      edad_inei_grupos_labels =
+        case_when(
+          edad_inei_grupos=="0_14a" ~ "0-14",
+          edad_inei_grupos=="15_29a" ~ "15-29",
+          edad_inei_grupos=="30_44a" ~ "30-44",
+          edad_inei_grupos=="45_64a" ~ "45-64",
+          edad_inei_grupos=="65a_mas" ~ "65+",
+          TRUE ~ NA_character_)
+    )
 }
 
 #' @describeIn cdc_edades_peru priorización con dos covariables
