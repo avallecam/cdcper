@@ -8,8 +8,6 @@
 #'
 #' @import dplyr
 #'
-#' @return html table
-#'
 #' @export cdc_datatable_html
 #' @export cdc_cut_integer
 #'
@@ -28,7 +26,7 @@ cdc_datatable_html <- function(data) {
         language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json')))
 }
 
-#' @describeIn cdc_datatable_html priorización con dos covariables
+#' @describeIn cdc_datatable_html similar to Hmisc::cut2 (https://stackoverflow.com/a/28075632/6702544)
 #' @inheritParams cdc_datatable_html
 #' @param variable variable a usar
 #' @param number_cuts numbers of cuts

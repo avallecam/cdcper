@@ -16,9 +16,6 @@ cdc_cut_integer(data, variable, number_cuts = 4, end_string = "_cut")
 
 \item{number_cuts}{numbers of cuts}
 }
-\value{
-html table
-}
 \description{
 Create html table
 }
@@ -26,7 +23,7 @@ Create html table
 \itemize{
 \item \code{cdc_datatable_html}: 
 
-\item \code{cdc_cut_integer}: priorización con dos covariables
+\item \code{cdc_cut_integer}: similar to Hmisc::cut2 (https://stackoverflow.com/a/28075632/6702544)
 }}
 
 \examples{
