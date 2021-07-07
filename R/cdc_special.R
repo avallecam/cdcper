@@ -20,8 +20,7 @@
 #'
 #' @examples
 #'
-#' # not yet
-#' # but check this out: https://twitter.com/robinson_es/status/1193204992120958976/photo/1
+#' # inspiration: https://twitter.com/robinson_es/status/1193204992120958976/photo/1
 #'
 #' library(tidyverse)
 #' library(charlatan)
@@ -31,28 +30,28 @@
 #'
 #' ch_data_wide <- tibble(
 #'   #values
-#'   random_time_01 = ch_integer(n = n_obs,min = 5,max = 10),
-#'   random_time_02 = ch_integer(n = n_obs,min = 5,max = 20),
-#'   random_time_03 = ch_integer(n = n_obs,min = 5,max = 30),
-#'   closed = ch_integer(n = n_obs,min = 0,max = 1) %>% as.logical()) %>%
-#'   pivot_longer(cols = random_time_01:random_time_03,
+#'   values_01 = ch_integer(n = n_obs,min = 5,max = 10),
+#'   values_02 = ch_integer(n = n_obs,min = 5,max = 20),
+#'   values_03 = ch_integer(n = n_obs,min = 5,max = 30),
+#'   category = ch_integer(n = n_obs,min = 0,max = 1) %>% as.logical()) %>%
+#'   pivot_longer(cols = values_01:values_03,
 #'                names_to = "variable",
 #'                values_to = "value")
 #'
-#' ch_data_wide %>%
-#'   group_by(variable) %>%
-#'   skimr::skim_without_charts()
+#' # ch_data_wide %>%
+#' #   group_by(variable) %>%
+#' #   skimr::skim_without_charts()
 #'
-#' cdc_dotwhiskers_plot(data = ch_data_wide,
-#'                      var_categorical = variable,
-#'                      var_continuous = value) %>%
+#' cdcper::cdc_dotwhiskers_plot(data = ch_data_wide,
+#'                              var_categorical = variable,
+#'                              var_continuous = value) %>%
 #'   ggplot(aes(x = estimate,y = variable)) +
 #'   geom_errorbarh(aes(xmax = conf.high, xmin = conf.low)) +
 #'   geom_point()
 #'
-#' cdc_dotwhiskers_plot_2(data = ch_data_wide,
-#'                        var_continuous = value,
-#'                        closed, variable)
+#' cdcper::cdc_dotwhiskers_plot_2(data = ch_data_wide,
+#'                                var_continuous = value,
+#'                                category, variable)
 #'
 #'
 
