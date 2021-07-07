@@ -121,6 +121,10 @@ example(cdc_dotwhiskers_plot)
     #> #   alternative <chr>
 
 ``` r
+example(cdc_pareto_lista)
+```
+
+``` r
 library(tidyverse)
 library(charlatan)
 
@@ -179,14 +183,10 @@ cdcper::cdc_pareto_lista(data = ch_data_wide,
                           variable_label = name) #%>%
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
 
 ``` r
   # plotly::ggplotly()
-```
-
-``` r
-# example(cdc_pareto_lista)
 ```
 
 ``` r

@@ -75,7 +75,7 @@ example(cdc_dotwhiskers_plot)
 ```
 
 ```{r,eval=FALSE}
-# example(cdc_pareto_lista)
+example(cdc_pareto_lista)
 ```
 
 ```{r}
