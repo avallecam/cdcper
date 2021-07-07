@@ -30,8 +30,8 @@
 #' # read_reunis_total(file = rute_1,year = 2020)
 #' # read_reunis_edad(file = rute_1, year = 2020)
 #' #
-#' # rute_2 <- "data-raw/PERÚ - ESTIMACIONES Y PROYECCIONES DE POBLACIÓN ( BOLETINES ESPECIALES 17,18,19,20,21,22 y 36,37)/Libro18/cuadros/"
-#' # read_inei_poblacion(folder = rute_2,file_name = "c1600") %>% count(anho)
+#' # #rute_2 <- "data-raw/PERÚ - ESTIMACIONES Y PROYECCIONES DE POBLACIÓN ( BOLETINES ESPECIALES 17,18,19,20,21,22 y 36,37)/Libro18/cuadros/"
+#' # #read_inei_poblacion(folder = rute_2,file_name = "c1600") %>% count(anho)
 #'
 
 read_reunis_total <- function(file,year) {
@@ -47,7 +47,7 @@ read_reunis_total <- function(file,year) {
     ))
 }
 
-#' @describeIn read_reunis_total priorización con dos covariables
+#' @describeIn read_reunis_total tidy tables a partir de poblacion por edades a nivel nacional de la REUNIS
 #' @inheritParams read_reunis_total
 
 read_reunis_edad <- function(file,year) {
@@ -88,7 +88,7 @@ read_reunis_edad <- function(file,year) {
     ))
 }
 
-#' @describeIn read_reunis_total priorización con dos covariables
+#' @describeIn read_reunis_total custom function ?
 #' @inheritParams read_reunis_total
 #' @param path paste path to folder of files
 
@@ -104,7 +104,7 @@ poblacion_distrital_clean <- function(path) {
            poblacion_total=as.numeric(poblacion_total))
 }
 
-#' @describeIn read_reunis_total priorización con dos covariables
+#' @describeIn read_reunis_total tidy tables from INEI population files
 #' @inheritParams read_reunis_total
 #' @param file_name name of file that corresponds to one department
 
@@ -120,7 +120,7 @@ read_inei_poblacion <- function(path,file_name) {
 
 }
 
-#' @describeIn read_reunis_total priorización con dos covariables
+#' @describeIn read_reunis_total tidy tables a partir de poblacion por edades (poblacion pediatrica) a nivel nacional de la REUNIS
 #' @inheritParams read_reunis_total
 
 read_reunis_edad_pediatricx <- function(file,year) {
@@ -160,7 +160,7 @@ read_reunis_edad_pediatricx <- function(file,year) {
     ))
 }
 
-#' @describeIn read_reunis_total priorización con dos covariables
+#' @describeIn read_reunis_total tidy tables a partir de poblacion por edades (por quinquenios) a nivel nacional de la REUNIS
 #' @inheritParams read_reunis_total
 
 read_reunis_edad_quinquenio <- function(file,year) {
