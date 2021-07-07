@@ -22,7 +22,60 @@
 #'
 #' @examples
 #'
-#' # not yet
+#' library(tidyverse)
+#' library(charlatan)
+#'
+#' n_obs <- 11
+#' set.seed(n_obs)
+#'
+#' ch_data_wide <- tibble(
+#'   #names
+#'   name = ch_currency(n = n_obs),
+#'   #values
+#'   category = ch_integer(n = n_obs,min = 0,max = 1) %>% as.logical(),
+#'   # category_02 = ch_integer(n = n_obs,min = 0,max = 1) %>% as.logical(),
+#'   value_01 = ch_beta(n = n_obs,shape1 = 2,shape2 = 8),
+#'   value_02 = ch_integer(n = n_obs,min = 1.2,max = 9.6)) %>%
+#'   pivot_longer(cols = value_01:value_02,
+#'                names_to = "variable",
+#'                values_to = "numeric") %>%
+#'   mutate(beta = ch_beta(n = n_obs*2,shape1 = 1,shape2 = 8))
+#'
+#' cdcper::cdc_pareto_lista(data = ch_data_wide,
+#'                          variable = numeric,
+#'                          pareto_cut = 80) %>%
+#'   avallecam::print_inf()
+#'
+#' cdcper::cdc_pareto_lista_2(data = ch_data_wide,
+#'                            variable_c = numeric,
+#'                            variable_d = category,
+#'                            pareto_cut = 80) %>%
+#'   avallecam::print_inf()
+#'
+#' cdcper::cdc_pareto_lista(data = ch_data_wide,
+#'                          variable = numeric,
+#'                          pareto_cut = 80) %>%
+#'   cdcper::cdc_pareto_lista(variable = beta,
+#'                            pareto_cut = 85) %>%
+#'   avallecam::print_inf()
+#'
+#' cdcper::cdc_pareto_lista(data = ch_data_wide,
+#'                          variable = numeric,
+#'                          pareto_cut = 80) %>%
+#'   cdcper::cdc_pareto_lista(variable = beta,
+#'                            pareto_cut = 85) %>%
+#'   cdcper::cdc_carga_coalesce() %>%
+#'   avallecam::print_inf()
+#'
+#' cdcper::cdc_pareto_lista(data = ch_data_wide,
+#'                          variable = numeric,
+#'                          pareto_cut = 80) %>%
+#'   cdcper::cdc_pareto_plot(pct_ = pct_numeric,
+#'                           cum_ = cum_numeric,
+#'                           variable_value = numeric,
+#'                           variable_label = name) #%>%
+#'   # plotly::ggplotly()
+#'
 #'
 cdc_pareto_lista <- function(data,variable,pareto_cut=85) {
 
