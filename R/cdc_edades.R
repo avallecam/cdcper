@@ -144,7 +144,7 @@ cdc_edades_peru <- function(data,variable_edad) {
     )
 }
 
-#' @describeIn cdc_edades_peru priorización con dos covariables
+#' @describeIn cdc_edades_peru clean age variables in different time units (year, months, days)
 #' @inheritParams cdc_edades_peru
 #' @param tipo_edad tipo de edad: A, M, D o año, mes, día
 
