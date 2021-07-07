@@ -36,10 +36,10 @@ x <- rnorm(100)
 w <- runif(100)
 
 a <- ecdf(x = x)
-b <- spatstat::ewcdf(x = x,weights = w)
+b <- spatstat.geom::ewcdf(x = x,weights = w)
 
-plot(a)
-plot(b)
+#plot(a)
+#plot(b)
 
 tibble(x=x,w=w) \%>\%
   mutate_ewcdf(variable = x,weights = w) \%>\%

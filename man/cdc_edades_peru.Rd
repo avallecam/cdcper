@@ -26,7 +26,7 @@ Categorize continuous age into classical levels
 \itemize{
 \item \code{cdc_edades_peru}: 
 
-\item \code{cdc_edades_clean}: priorización con dos covariables
+\item \code{cdc_edades_clean}: clean age variables in different time units (year, months, days)
 }}
 
 \examples{

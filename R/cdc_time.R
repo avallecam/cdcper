@@ -8,7 +8,7 @@
 #' @param year_integer year column variable as integer
 #' @param week_integer week column variable as integer
 #'
-#' @import dplyr
+#' @import tidyverse
 #' @import lubridate
 #' @import aweek
 #'

@@ -8,7 +8,8 @@
 #' @param variable input variable
 #' @param weights input weights
 #'
-#' @import dplyr
+#' @import tidyverse
+#' @import spatstat.geom
 #' @importFrom magrittr %>%
 #'
 #' @return tibble
@@ -27,10 +28,10 @@
 #' w <- runif(100)
 #'
 #' a <- ecdf(x = x)
-#' b <- spatstat::ewcdf(x = x,weights = w)
+#' b <- spatstat.geom::ewcdf(x = x,weights = w)
 #'
-#' plot(a)
-#' plot(b)
+#' #plot(a)
+#' #plot(b)
 #'
 #' tibble(x=x,w=w) %>%
 #'   mutate_ewcdf(variable = x,weights = w) %>%
@@ -45,6 +46,6 @@ mutate_ewcdf <- function(data,variable,weights) {
   c_var_name_02 <- c_var %>% as_name() %>% str_c("ewcdf_",.)
   data %>%
     mutate(!!c_var_name_01 := ecdf(variable)(variable) ) %>%
-    mutate(!!c_var_name_02 := spatstat::ewcdf(x = variable,
+    mutate(!!c_var_name_02 := spatstat.geom::ewcdf(x = variable,
                                               weights = weights)(variable) )
 }

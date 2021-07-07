@@ -3,7 +3,6 @@
 \docType{package}
 \name{cdcper}
 \alias{cdcper}
-\alias{cdcper-package}
 \title{cdcper package}
 \description{
 R functions for the CDC Peru

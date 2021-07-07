@@ -7,8 +7,9 @@
 #' @param data input dataset
 #' @param variable_edad edad como variable continua
 #'
-#' @import dplyr
-#' @import forcats
+#' @import tidyverse
+#' @import skimr
+#' @import rlang
 #'
 #' @return tidy categorical variables from one continuous age variable
 #'

@@ -8,10 +8,10 @@
 #' @param var_categorical variable categórica (idealmente politómica)
 #' @param var_continuous variable numérica contínua
 #'
-#' @import dplyr
-#' @import tidyr
+#' @import tidyverse
 #' @import rlang
 #' @import broom
+#' @import charlatan
 #'
 #' @return estimacion puntual e incertidumbre de la distribución de una variable por cada nivel de categorias
 #'

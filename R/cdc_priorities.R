@@ -8,10 +8,10 @@
 #' @param variable variable numérica contínua bajo la cual priorizar algún listado
 #' @param pareto_cut punto de corte tipo pareto
 #'
-#' @import dplyr
-#' @import tidyr
+#' @import tidyverse
 #' @import rlang
 #' @import ggrepel
+#' @import charlatan
 #'
 #' @return selección por criterio pareto y coalescencia para multiples covariables
 #'
@@ -46,26 +46,26 @@
 #'                          pareto_cut = 80) %>%
 #'   avallecam::print_inf()
 #'
-#' cdcper::cdc_pareto_lista_2(data = ch_data_wide,
-#'                            variable_c = numeric,
-#'                            variable_d = category,
-#'                            pareto_cut = 80) %>%
-#'   avallecam::print_inf()
-#'
-#' cdcper::cdc_pareto_lista(data = ch_data_wide,
-#'                          variable = numeric,
-#'                          pareto_cut = 80) %>%
-#'   cdcper::cdc_pareto_lista(variable = beta,
-#'                            pareto_cut = 85) %>%
-#'   avallecam::print_inf()
-#'
-#' cdcper::cdc_pareto_lista(data = ch_data_wide,
-#'                          variable = numeric,
-#'                          pareto_cut = 80) %>%
-#'   cdcper::cdc_pareto_lista(variable = beta,
-#'                            pareto_cut = 85) %>%
-#'   cdcper::cdc_carga_coalesce() %>%
-#'   avallecam::print_inf()
+#' #cdcper::cdc_pareto_lista_2(data = ch_data_wide,
+#' #                          variable_c = numeric,
+#' #                          variable_d = category,
+#' #                          pareto_cut = 80) %>%
+#' # avallecam::print_inf()
+#' #
+#' #cdcper::cdc_pareto_lista(data = ch_data_wide,
+#' #                        variable = numeric,
+#' #                        pareto_cut = 80) %>%
+#' # cdcper::cdc_pareto_lista(variable = beta,
+#' #                          pareto_cut = 85) %>%
+#' # avallecam::print_inf()
+#' #
+#' #cdcper::cdc_pareto_lista(data = ch_data_wide,
+#' #                        variable = numeric,
+#' #                        pareto_cut = 80) %>%
+#' # cdcper::cdc_pareto_lista(variable = beta,
+#' #                          pareto_cut = 85) %>%
+#' # cdcper::cdc_carga_coalesce() %>%
+#' # avallecam::print_inf()
 #'
 #' cdcper::cdc_pareto_lista(data = ch_data_wide,
 #'                          variable = numeric,
@@ -76,7 +76,7 @@
 #'                           variable_label = name) #%>%
 #'   # plotly::ggplotly()
 #'
-#'
+
 cdc_pareto_lista <- function(data,variable,pareto_cut=85) {
 
   c_var <- enquo(variable)
@@ -139,7 +139,8 @@ cdc_pareto_plot <- function(cdc_pareto_lista,pct_,cum_,
                             variable_value,variable_label) {
 
   cdc_pareto_lista %>%
-    ggplot(aes(x = {{pct_}}, y = {{cum_}},
+    ggplot(aes(y = {{pct_}},
+               x = {{cum_}},
                size={{variable_value}})) +
     geom_point(aes(color={{variable_value}},
                    #alpha={{variable_value}}

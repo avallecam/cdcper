@@ -7,8 +7,9 @@
 #' @param data input dataset
 #' @param axis_x variable with time axis type "yearmon"
 #'
-#' @import dplyr
-#' @import ggplot2
+#' @import tidyverse
+#' @import sweep
+#' @import forecast
 #' @importFrom magrittr %>%
 #'
 #' @return ggplot
@@ -59,7 +60,7 @@ gg_forecast <- function(data,axis_x=index) {
     zoo::scale_x_yearmon(n = 12, format = "%b%Y") +
     #scale_x_yearmon(n = 12, format = "%Y / %m") +
     # week
-    # scale_x_date(date_breaks="20 week", date_labels = "%Y-%U") + # ------ opcion 1
+    # scale_x_date(date_breaks="20 week", date_labels = "%Y-%U") + # opcion 1
     # cont
     tidyquant::scale_color_tq() +
     tidyquant::scale_fill_tq() +

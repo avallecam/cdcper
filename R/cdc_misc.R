@@ -6,7 +6,7 @@
 #'
 #' @param data input dataset
 #'
-#' @import dplyr
+#' @import tidyverse
 #'
 #' @export cdc_datatable_html
 #' @export cdc_cut_integer
@@ -14,8 +14,14 @@
 #' @examples
 #'
 #' library(tidyverse)
-#' mtcars %>% as_tibble() %>% cdc_cut_integer(qsec,3) %>% count(qsec_cut)
-#' iris %>% group_by(Species) %>% summarise_all(.funs = mean) %>% cdc_datatable_html()
+#' mtcars %>%
+#'    as_tibble() %>%
+#'    cdc_cut_integer(qsec,3) %>%
+#'    count(qsec_cut)
+#' iris %>%
+#'    group_by(Species) %>%
+#'    summarise_all(.funs = mean) %>%
+#'    cdc_datatable_html()
 #'
 
 cdc_datatable_html <- function(data) {

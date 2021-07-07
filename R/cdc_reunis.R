@@ -7,13 +7,10 @@
 #' @param file nombre de archivo
 #' @param year anho de archivo
 #'
-#' @import dplyr
-#' @import tidyr
+#' @import tidyverse
 #' @import janitor
 #' @import readxl
-#' @import purrr
 #' @import tibble
-#' @import stringr
 #'
 #' @return tidy tables a partir de poblacion a nivel nacional de la REUNIS
 #'

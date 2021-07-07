@@ -40,15 +40,15 @@ Tidy up REUNIS tables of population at district level. Ver: [REUNIS](https://www
 \itemize{
 \item \code{read_reunis_total}: 
 
-\item \code{read_reunis_edad}: priorización con dos covariables
+\item \code{read_reunis_edad}: tidy tables a partir de poblacion por edades a nivel nacional de la REUNIS
 
-\item \code{poblacion_distrital_clean}: priorización con dos covariables
+\item \code{poblacion_distrital_clean}: custom function ?
 
-\item \code{read_inei_poblacion}: priorización con dos covariables
+\item \code{read_inei_poblacion}: tidy tables from INEI population files
 
-\item \code{read_reunis_edad_pediatricx}: priorización con dos covariables
+\item \code{read_reunis_edad_pediatricx}: tidy tables a partir de poblacion por edades (poblacion pediatrica) a nivel nacional de la REUNIS
 
-\item \code{read_reunis_edad_quinquenio}: priorización con dos covariables
+\item \code{read_reunis_edad_quinquenio}: tidy tables a partir de poblacion por edades (por quinquenios) a nivel nacional de la REUNIS
 }}
 
 \examples{
@@ -57,7 +57,7 @@ Tidy up REUNIS tables of population at district level. Ver: [REUNIS](https://www
 # read_reunis_total(file = rute_1,year = 2020)
 # read_reunis_edad(file = rute_1, year = 2020)
 #
-# rute_2 <- "data-raw/PERÃš - ESTIMACIONES Y PROYECCIONES DE POBLACIÃ“N ( BOLETINES ESPECIALES 17,18,19,20,21,22 y 36,37)/Libro18/cuadros/"
-# read_inei_poblacion(folder = rute_2,file_name = "c1600") \%>\% count(anho)
+# #rute_2 <- "data-raw/PERÃš - ESTIMACIONES Y PROYECCIONES DE POBLACIÃ“N ( BOLETINES ESPECIALES 17,18,19,20,21,22 y 36,37)/Libro18/cuadros/"
+# #read_inei_poblacion(folder = rute_2,file_name = "c1600") \%>\% count(anho)
 
 }
