@@ -2,10 +2,16 @@ Package: cdcper
 Type: Package
 Title: R functions for the CDC Peru 
 Version: 0.1.0
-Author: Andree Valle Campos
+Authors@R: 
+    person(given = "Andree",
+           family = "Valle Campos",
+           role = c("aut", "cre"),
+           email = "avallecam@gmail.com",
+           comment = c(ORCID = "0000-0002-7779-481X"))
 Maintainer: Andree Valle Campos <avallecam@gmail.com>
-Description: Generate Tables, Figures and Reports for the Peruvian Health Situational Analysis (ASIS)
-    Generate maps with areal data for disease surveillance.
+Description: Generate Tables, Figures and Reports for the Peruvian 
+    National Center of Epidemiology (CDC Peru)
+    Generate maps with areal data for descriptive disease surveillance.
     Direct application of cluster algorithms.
 License: GPL-2
 Imports: tidyverse, ggrepel, rlang, janitor, readxl, charlatan, skimr, DT, aweek

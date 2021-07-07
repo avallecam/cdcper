@@ -18,28 +18,34 @@ options(tidyverse.quiet = TRUE,warn = -1)
 <!-- badges: start -->
 <!-- badges: end -->
 
-El objetivo de `cdcper` es agilizar la creación de variables, gráficos e importación bases de datos de relevancia para el CDC Perú.
+El objetivo de `cdcper` es agilizar la creación de variables, gráficos 
+e importación bases de datos de relevancia para el Centro Nacional de Epidemiología, 
+Prevención y Control 
+de Enfermedades [(CDC Perú)](https://www.dge.gob.pe/portalnuevo/).
 
 ## Installation
 
 <!-- You can install the released version of cdcper from [CRAN](https://CRAN.R-project.org) with: install.packages("cdcper") -->
 
 ``` r
-devtools::install_github("avallecam/cdcper")
+if(!require("remotes")) install.packages("remotes")
+remotes::install_github("avallecam/cdcper")
 ```
 
 ## Main functionalities
 
 ### General usefull functions
 
-- `cdc_edades_peru`: crea categorias de edades comunmente usadas
-- `read_reunis_total`: ordena base de reunis para brindar la poblacion del año en curso
-- `read_reunis_edad`: brinda la población estratificada por sexo y etapas de vida
-- `read_inei_poblacion`: lee archivos de inei de población (revisar ejemplo)
+- `cdc_edades_peru`: crea categorias de edades comunmente usadas.
+- `read_reunis_total`: brinda la poblacion del año en curso 
+con la base de datos de REUNIS.
+- `read_reunis_edad`: brinda la población estratificada por sexo y etapas de vida 
+con la base de datos de REUNIS.
+- `read_inei_poblacion`: lee archivos de población del INEI.
 
 ### Prioritization functions for Data Mining
 
-- `cdc_pareto_lista`: calcula porcentaje de aporte individual y aporte acumulado de elementos en una lista a priorizar 
+- `cdc_pareto_lista`: calcula porcentaje de aporte individual y aporte acumulado de elementos en una lista a priorizar.
 - `cdc_carga_coalesce`: permite unir (logical connector OR) los listas priorizadas y generar una lista concenso.
 
 
