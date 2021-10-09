@@ -22,6 +22,8 @@
 #'
 #' @examples
 #'
+#' \dontrun{
+#'
 #' library(tidyverse)
 #' library(charlatan)
 #'
@@ -75,6 +77,8 @@
 #'                           variable_value = numeric,
 #'                           variable_label = name) #%>%
 #'   # plotly::ggplotly()
+#'
+#' }
 #'
 
 cdc_pareto_lista <- function(data,variable,pareto_cut=85) {
@@ -134,31 +138,38 @@ cdc_carga_coalesce <- function(data) {
 #' @param cum_ % acumulado
 #' @param variable_value nombre de la variable numerica evaluada
 #' @param variable_label nombre de la variable para las etiquetas
+#' @param with_format add axis scale, fixed coordinates and ggrepel labels
 
 cdc_pareto_plot <- function(cdc_pareto_lista,pct_,cum_,
-                            variable_value,variable_label) {
+                            variable_value,variable_label,
+                            with_format=TRUE) {
 
-  cdc_pareto_lista %>%
+  data_out <- cdc_pareto_lista %>%
     ggplot(aes(y = {{pct_}},
                x = {{cum_}},
                size={{variable_value}})) +
     geom_point(aes(color={{variable_value}},
                    #alpha={{variable_value}}
-                   )
-               ) +
-    scale_color_viridis_c() +
-    scale_y_continuous(breaks = seq(0,100,5),
-                       labels = seq(0,100,5)) +
-    scale_x_continuous(breaks = seq(0,100,5),
-                       labels = seq(0,100,5)) +
-    coord_fixed(ratio = 1) +
-    ggrepel::geom_text_repel(aes(label={{variable_label}}),
-                             direction    = "y",
-                             vjust        = 1,
-                             hjust        = 0,
-                             force        = 0.5,
-                             nudge_x      = 6.85,
-                             nudge_y      = 6.85,
-                             segment.size = 0.2,
-                             show.legend = F)
+    )
+    ) +
+    scale_color_viridis_c()
+
+  if (with_format==TRUE) {
+    data_out <- data_out +
+      scale_y_continuous(breaks = seq(0,100,5),
+                         labels = seq(0,100,5)) +
+      scale_x_continuous(breaks = seq(0,100,5),
+                         labels = seq(0,100,5)) +
+      coord_fixed(ratio = 1) +
+      ggrepel::geom_text_repel(aes(label={{variable_label}}),
+                               direction    = "y",
+                               vjust        = 1,
+                               hjust        = 0,
+                               force        = 0.5,
+                               nudge_x      = 6.85,
+                               nudge_y      = 6.85,
+                               segment.size = 0.2,
+                               show.legend = F)
+  }
+  data_out
 }

@@ -13,7 +13,14 @@ cdc_pareto_lista_2(data, variable_c, variable_d, pareto_cut = 80)
 
 cdc_carga_coalesce(data)
 
-cdc_pareto_plot(cdc_pareto_lista, pct_, cum_, variable_value, variable_label)
+cdc_pareto_plot(
+  cdc_pareto_lista,
+  pct_,
+  cum_,
+  variable_value,
+  variable_label,
+  with_format = TRUE
+)
 }
 \arguments{
 \item{data}{base de datos}
@@ -35,6 +42,8 @@ cdc_pareto_plot(cdc_pareto_lista, pct_, cum_, variable_value, variable_label)
 \item{variable_value}{nombre de la variable numerica evaluada}
 
 \item{variable_label}{nombre de la variable para las etiquetas}
+
+\item{with_format}{add axis scale, fixed coordinates and ggrepel labels}
 }
 \value{
 selección por criterio pareto y coalescencia para multiples covariables
@@ -54,6 +63,8 @@ Mostrar qué elementos representan el 80% de la suma total
 }}
 
 \examples{
+
+\dontrun{
 
 library(tidyverse)
 library(charlatan)
@@ -108,5 +119,7 @@ cdcper::cdc_pareto_lista(data = ch_data_wide,
                           variable_value = numeric,
                           variable_label = name) #\%>\%
   # plotly::ggplotly()
+
+}
 
 }
