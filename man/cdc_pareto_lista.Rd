@@ -35,9 +35,9 @@ cdc_pareto_plot(
 
 \item{cdc_pareto_lista}{resultado de cdc_pareto_lista}
 
-\item{pct_}{% individual}
+\item{pct_}{porcentaje individual}
 
-\item{cum_}{% acumulado}
+\item{cum_}{porcenjate acumulado}
 
 \item{variable_value}{nombre de la variable numerica evaluada}
 
@@ -88,20 +88,20 @@ ch_data_wide <- tibble(
 cdcper::cdc_pareto_lista(data = ch_data_wide,
                          variable = numeric,
                          pareto_cut = 80) \%>\%
-  avallecam::print_inf()
+  epihelper::print_inf()
 
 #cdcper::cdc_pareto_lista_2(data = ch_data_wide,
 #                          variable_c = numeric,
 #                          variable_d = category,
 #                          pareto_cut = 80) \%>\%
-# avallecam::print_inf()
+# epihelper::print_inf()
 #
 #cdcper::cdc_pareto_lista(data = ch_data_wide,
 #                        variable = numeric,
 #                        pareto_cut = 80) \%>\%
 # cdcper::cdc_pareto_lista(variable = beta,
 #                          pareto_cut = 85) \%>\%
-# avallecam::print_inf()
+# epihelper::print_inf()
 #
 #cdcper::cdc_pareto_lista(data = ch_data_wide,
 #                        variable = numeric,
@@ -109,7 +109,7 @@ cdcper::cdc_pareto_lista(data = ch_data_wide,
 # cdcper::cdc_pareto_lista(variable = beta,
 #                          pareto_cut = 85) \%>\%
 # cdcper::cdc_carga_coalesce() \%>\%
-# avallecam::print_inf()
+# epihelper::print_inf()
 
 cdcper::cdc_pareto_lista(data = ch_data_wide,
                          variable = numeric,

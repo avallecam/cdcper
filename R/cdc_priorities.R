@@ -46,20 +46,20 @@
 #' cdcper::cdc_pareto_lista(data = ch_data_wide,
 #'                          variable = numeric,
 #'                          pareto_cut = 80) %>%
-#'   avallecam::print_inf()
+#'   epihelper::print_inf()
 #'
 #' #cdcper::cdc_pareto_lista_2(data = ch_data_wide,
 #' #                          variable_c = numeric,
 #' #                          variable_d = category,
 #' #                          pareto_cut = 80) %>%
-#' # avallecam::print_inf()
+#' # epihelper::print_inf()
 #' #
 #' #cdcper::cdc_pareto_lista(data = ch_data_wide,
 #' #                        variable = numeric,
 #' #                        pareto_cut = 80) %>%
 #' # cdcper::cdc_pareto_lista(variable = beta,
 #' #                          pareto_cut = 85) %>%
-#' # avallecam::print_inf()
+#' # epihelper::print_inf()
 #' #
 #' #cdcper::cdc_pareto_lista(data = ch_data_wide,
 #' #                        variable = numeric,
@@ -67,7 +67,7 @@
 #' # cdcper::cdc_pareto_lista(variable = beta,
 #' #                          pareto_cut = 85) %>%
 #' # cdcper::cdc_carga_coalesce() %>%
-#' # avallecam::print_inf()
+#' # epihelper::print_inf()
 #'
 #' cdcper::cdc_pareto_lista(data = ch_data_wide,
 #'                          variable = numeric,
@@ -134,8 +134,8 @@ cdc_carga_coalesce <- function(data) {
 #' @describeIn cdc_pareto_lista grafico de pareto: % individual vs % acumulado
 #' @inheritParams cdc_pareto_lista
 #' @param cdc_pareto_lista resultado de cdc_pareto_lista
-#' @param pct_ % individual
-#' @param cum_ % acumulado
+#' @param pct_ porcentaje individual
+#' @param cum_ porcenjate acumulado
 #' @param variable_value nombre de la variable numerica evaluada
 #' @param variable_label nombre de la variable para las etiquetas
 #' @param with_format add axis scale, fixed coordinates and ggrepel labels
@@ -146,16 +146,17 @@ cdc_pareto_plot <- function(cdc_pareto_lista,pct_,cum_,
 
   data_out <- cdc_pareto_lista %>%
     ggplot(aes(y = {{pct_}},
-               x = {{cum_}},
-               size={{variable_value}})) +
-    geom_point(aes(color={{variable_value}},
-                   #alpha={{variable_value}}
-    )
-    ) +
-    scale_color_viridis_c()
+               x = {{cum_}})) +
+    geom_point()
 
   if (with_format==TRUE) {
     data_out <- data_out +
+      geom_point(aes(color={{variable_value}},
+                     size={{variable_value}},
+                     #alpha={{variable_value}}
+      )
+      ) +
+      scale_color_viridis_c() +
       scale_y_continuous(breaks = seq(0,100,5),
                          labels = seq(0,100,5)) +
       scale_x_continuous(breaks = seq(0,100,5),
